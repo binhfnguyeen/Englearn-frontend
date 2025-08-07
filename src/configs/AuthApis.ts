@@ -1,14 +1,22 @@
 import axios from "axios";
+import Cookies from "js-cookie";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const BASE_URL = process.env.BASE_URL
+const authApis = axios.create({
+    baseURL: BASE_URL,
+})
 
-const authApis = () => {
-    return axios.create({
-        baseURL: BASE_URL,
-        headers: {
-            'Authorization': `Bearer`
+authApis.interceptors.request.use(
+    (config)=>{
+        if (typeof window !== "undefined"){
+            const token = Cookies.get("accessToken");
+            if (token){
+                config.headers["Authorization"] = `Bearer ${token}`;
+            }
         }
-    })
-}
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
 
 export default authApis;

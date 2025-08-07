@@ -27,7 +27,7 @@ export default function Profile() {
         try {
             setLoading(true);
             let res = await Apis.post(endpoints['login'], { ...user });
-            console.info(res.data.result);
+            console.info(res.data);
 
         } catch (ex) {
             console.error(ex);
