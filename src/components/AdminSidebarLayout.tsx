@@ -4,18 +4,19 @@ import { Button, Col, Container, Nav, Row } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useContext } from "react";
 import UserContext from "@/configs/UserContext";
+import Link from "next/link";
 
 export default function Header({ children }: { children: React.ReactNode; }) {
     const context = useContext(UserContext);
 
     if (!context) return null;
 
-    const {user, dispatch} = context;
+    const { user, dispatch } = context;
 
     const handleLogout = () => {
-        dispatch({type: "logout"});
+        dispatch({ type: "logout" });
     }
-    
+
     return (
         <>
             <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
@@ -32,17 +33,11 @@ export default function Header({ children }: { children: React.ReactNode; }) {
                             <h6 className="text-muted mb-3">Chức năng</h6>
                             {user && (
                                 <Nav defaultActiveKey="/home" className="flex-column">
-                                    <Nav.Link href="#home" className="mb-2 text-dark">
+                                    <Nav.Link as={Link} href="/admin/topics" className="mb-2 text-dark">
+                                        Thêm chủ đề tiếng Anh
+                                    </Nav.Link>
+                                    <Nav.Link as={Link} href="/admin/vocabularies" className="mb-2 text-dark">
                                         Thêm từ vựng
-                                    </Nav.Link>
-                                    <Nav.Link href="#users" className="mb-2 text-dark">
-                                        Thêm đề kiểm tra
-                                    </Nav.Link>
-                                    <Nav.Link href="#courses" className="mb-2 text-dark">
-                                        Huấn luyện chatbot
-                                    </Nav.Link>
-                                    <Nav.Link href="#settings" className="mb-2 text-dark">
-                                        ⚙️ Cài đặt
                                     </Nav.Link>
                                     <Button variant="outline-danger" className="mt-4" onClick={handleLogout}>
                                         Đăng xuất
