@@ -79,7 +79,7 @@ export default function VocabTopic() {
             </Nav>
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="fw-bold">Danh sách từ vựng</h2>
-                <Link href="/admin/topics/addTopic" className="btn btn-primary">
+                <Link href={`/admin/topics/${id}/addVocab`} className="btn btn-primary">
                     + Thêm từ vựng thuộc chủ đề
                 </Link>
             </div>

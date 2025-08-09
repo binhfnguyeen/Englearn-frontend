@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react"
 import { Alert, Button, Card, Col, Container, Form, Nav, Row, Spinner } from "react-bootstrap";
 
-export default function addTopic(){
+export default function addTopic() {
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -33,12 +33,12 @@ export default function addTopic(){
     }
 
     useEffect(() => {
-            if (msg) {
-                const timer = setTimeout(() => setMsg(""), 2000);
-                return () => clearTimeout(timer);
-            }
-        }, [msg]);
-    
+        if (msg) {
+            const timer = setTimeout(() => setMsg(""), 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [msg]);
+
 
     return (
         <Container className="mt-4">
@@ -53,7 +53,10 @@ export default function addTopic(){
                     <h3 className="mb-4 fw-bold text-primary">Thêm chủ đề</h3>
 
                     {msg && (
-                        <Alert className="py-2" variant={msg.includes("không") ? "danger" : "success"}>
+                        <Alert variant={msg.includes("không") ? "danger" : "success"}
+                            className="py-2 position-fixed top-0 end-0 m-3 shadow"
+                            style={{ zIndex: 9999, minWidth: "250px" }}
+                        >
                             {msg}
                         </Alert>
                     )}

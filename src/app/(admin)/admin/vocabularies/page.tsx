@@ -92,7 +92,7 @@ export default function Vocablaries() {
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="fw-bold">English Vocabulary</h2>
                 <Link href="/admin/vocabularies/addVocab" className="btn btn-primary">
-                    + Thêm chủ đề
+                    + Thêm từ vựng
                 </Link>
             </div>
             <Form>

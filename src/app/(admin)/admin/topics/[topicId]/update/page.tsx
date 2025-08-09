@@ -86,7 +86,11 @@ export default function update() {
                     <h3 className="mb-4 fw-bold text-primary">Cập nhật chủ đề</h3>
 
                     {msg && (
-                        <Alert className="py-2" variant={msg.includes("không") ? "danger" : "success"}>
+                        <Alert
+                            variant={msg.includes("không") ? "danger" : "success"}
+                            className="py-2 position-fixed top-0 end-0 m-3 shadow"
+                            style={{ zIndex: 9999, minWidth: "250px" }}
+                        >
                             {msg}
                         </Alert>
                     )}
