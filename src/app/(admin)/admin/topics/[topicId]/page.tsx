@@ -2,10 +2,11 @@
 
 import MySpinner from "@/components/MySpinner";
 import Apis from "@/configs/Apis";
+import authApis from "@/configs/AuthApis";
 import endpoints from "@/configs/Endpoints";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Alert, Button, Card, Col, Form, Nav, Row } from "react-bootstrap";
 
 interface Vocabulary {
@@ -72,6 +73,30 @@ export default function VocabTopic() {
         setPage(page + 1);
     }
 
+    const handleRemove = async (e: React.FormEvent<HTMLElement>, topicId: number, vocabId: number) => {
+        e.preventDefault();
+
+        try {
+            await authApis.delete(endpoints["topic_vocabs"](topicId), {
+                params: { vocabId }
+            });
+            setMsg("Xóa từ thành công!");
+            loadVocabularies();
+        } catch (err) {
+            console.error(err);
+            setMsg("Xóa từ không thành công!");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if (msg) {
+            const timer = setTimeout(() => setMsg(""), 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [msg]);
+
     return (
         <div className="container mt-4">
             <Nav className="ms-auto align-items-center gap-2 mb-2">
@@ -93,6 +118,16 @@ export default function VocabTopic() {
                     />
                 </Form.Group>
             </Form>
+
+            {msg && (
+                <Alert
+                    variant={msg.includes("thất bại") ? "danger" : "success"}
+                    className="py-2 position-fixed top-0 end-0 m-3 shadow"
+                    style={{ zIndex: 9999, minWidth: "250px" }}
+                >
+                    {msg}
+                </Alert>
+            )}
 
             <Row className="g-4 mt-3">
                 {vocabularies.map((vocab) => (
@@ -122,13 +157,8 @@ export default function VocabTopic() {
 
                                 <div className="d-flex gap-2 mt-2">
                                     <Link
-                                        href={`#`}
-                                        className="btn btn-success btn-sm flex-grow-1"
-                                    >
-                                        Cập nhật
-                                    </Link>
-                                    <Link
                                         href="#"
+                                        onClick={(e)=>handleRemove(e, id, vocab.id)}
                                         className="btn btn-danger btn-sm flex-grow-1"
                                     >
                                         Xóa

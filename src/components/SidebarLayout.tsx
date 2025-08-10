@@ -1,9 +1,21 @@
 "use client"
-import { Alert, Col, Container, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from "react";
+import React, { useContext } from "react";
+import UserContext from "@/configs/UserContext";
+import Link from "next/link";
 
 export default function Header({ children }: { children: React.ReactNode }) {
+    const context = useContext(UserContext);
+
+    if (!context) return null;
+
+    const { user, dispatch } = context;
+
+    const handleLogout = () => {
+        dispatch({ type: "logout" });
+    }
+
     return (
         <>
             <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
@@ -19,22 +31,42 @@ export default function Header({ children }: { children: React.ReactNode }) {
                             </h1>
                             <h6 className="text-muted mb-3">Chức năng</h6>
                             <Nav defaultActiveKey="/home" className="flex-column">
-                                <Nav.Link href="#home" className="mb-2 text-dark">
-                                    🏠 Trang chủ
-                                </Nav.Link>
-                                <Nav.Link href="#users" className="mb-2 text-dark">
-                                    👥 Người dùng
-                                </Nav.Link>
-                                <Nav.Link href="#courses" className="mb-2 text-dark">
-                                    📚 Khóa học
-                                </Nav.Link>
-                                <Nav.Link href="#settings" className="mb-2 text-dark">
-                                    ⚙️ Cài đặt
-                                </Nav.Link>
+                                {user != null ? (
+                                    <>
+                                        <Nav.Link as={Link} href="/topics" className="mb-2 text-dark">
+                                            Học từ vựng
+                                        </Nav.Link>
+                                        <Nav.Link as={Link} href="#" className="mb-2 text-dark">
+                                            Kiểm tra từ vựng
+                                        </Nav.Link>
+                                        <Nav.Link as={Link} href="#" className="mb-2 text-dark">
+                                            Luyện nói với chatbot
+                                        </Nav.Link>
+                                        <Nav.Link as={Link} href="#" className="mb-2 text-dark">
+                                            Theo dõi tiến độ
+                                        </Nav.Link>
+                                        <Button
+                                            variant="outline-danger"
+                                            className="mt-4"
+                                            onClick={handleLogout}
+                                        >
+                                            Đăng xuất
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link
+                                            href="/login"
+                                            className="btn btn-outline-primary btn-sm flex-fill"
+                                        >
+                                            Đăng nhập
+                                        </Link>
+                                    </>
+                                )}
                             </Nav>
+
                         </Col>
 
-                        {/* Nội dung chính */}
                         <Col md={10} className="p-4 bg-light">
                             {children}
                         </Col>

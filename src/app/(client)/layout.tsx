@@ -1,26 +1,41 @@
+"use client"
 import SidebarLayout from "@/components/SidebarLayout";
 import Footer from "@/components/Footer";
-import { Metadata } from "next";
+import Cookies from "js-cookie";
+import { useEffect, useReducer } from "react";
+import MyUserReducer from "@/reducers/MyUserReducer";
+import authApis from "@/configs/AuthApis";
+import endpoints from "@/configs/Endpoints";
+import UserContext from "@/configs/UserContext";
 
-export const metadata: Metadata = {
-    title: {
-        default: "ELearnWeb",
-        template: "%s | Heulwentech",
-    },
-    description: "Created by Heulwen",
-};
+export default function ClientRootLayout({ children }: { children: React.ReactNode }) {
+    const [user, dispatch] = useReducer(MyUserReducer, null);
+    useEffect(()=>{
+        const loadUser = async () => {
+            const token = Cookies.get("accessToken");
+            if (token){
+                try {
+                    let res = await authApis.post(endpoints['profile']);
+                    dispatch({
+                        type: "login",
+                        payload: res.data
+                    })
+                } catch (err) {
+                    console.error("Không thể load user từ token ", err);
+                    Cookies.remove("accessToken");
+                }
+            }
+        }
 
-export default function ClientRootLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+        loadUser();
+    }, [])
+
     return (
-        <>
+        <UserContext.Provider value={{user, dispatch}}>
             <SidebarLayout>
                 {children}
             </SidebarLayout>
             <Footer />
-        </>
+        </UserContext.Provider>
     );
 }

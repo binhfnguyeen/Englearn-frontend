@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
             );
 
             if (payload.scope !== "ROLE_ADMIN") {
-                return NextResponse.redirect(new URL("/admin/login", request.url));
+                return NextResponse.redirect(new URL("/not-found", request.url));
             }
             return NextResponse.next();
         } catch (err: any) {

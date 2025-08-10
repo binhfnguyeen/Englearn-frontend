@@ -1,10 +1,13 @@
 "use client"
 
 import Apis from "@/configs/Apis";
+import authApis from "@/configs/AuthApis";
 import endpoints from "@/configs/Endpoints";
-import { useState } from "react"
+import UserContext from "@/configs/UserContext";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react"
 import { Button, Container, Form, Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
     const [loading, setLoading] = useState(false);
@@ -19,7 +22,8 @@ export default function Profile() {
     }]
 
     const [user, setUser] = useState<{ [key: string]: string }>({});
-    // const navigate = useNavigate();
+    const router = useRouter();
+    const { dispatch } = useContext(UserContext)!;
 
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -28,6 +32,22 @@ export default function Profile() {
             setLoading(true);
             let res = await Apis.post(endpoints['login'], { ...user });
             console.info(res.data);
+
+            if (res.data.code == 1000) {
+                const token = res.data.result.token;
+                Cookies.set("accessToken", token, {
+                    path: "/",
+                    sameSite: "lax",
+                });
+
+                let profile = await authApis.post(endpoints['profile']);
+                console.info(profile.data);
+                dispatch({
+                    type: "login",
+                    payload: profile.data
+                })
+                router.push("/")
+            }
 
         } catch (ex) {
             console.error(ex);
