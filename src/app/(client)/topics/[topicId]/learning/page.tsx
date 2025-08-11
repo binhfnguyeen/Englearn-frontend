@@ -100,8 +100,6 @@ export default function Learning() {
         });
 
         try {
-            const currentDate = new Date().getDate();
-
             await Apis.post(endpoints["learnedWords"], {
                 date: new Date().toISOString().split('T')[0],
                 userId: user.result.id,

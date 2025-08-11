@@ -36,7 +36,7 @@ export default function Header({ children }: { children: React.ReactNode }) {
                                         <Nav.Link as={Link} href="/topics" className="mb-2 text-dark">
                                             Học từ vựng
                                         </Nav.Link>
-                                        <Nav.Link as={Link} href="#" className="mb-2 text-dark">
+                                        <Nav.Link as={Link} href="/tests" className="mb-2 text-dark">
                                             Kiểm tra từ vựng
                                         </Nav.Link>
                                         <Nav.Link as={Link} href="#" className="mb-2 text-dark">
