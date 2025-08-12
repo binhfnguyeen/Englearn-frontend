@@ -31,6 +31,10 @@ interface Choice {
     word: string;
 }
 
+interface Answer{
+    questionChoiceId: number;
+}
+
 export default function fullTest() {
     const { testId } = useParams();
     const id = Number(testId);
@@ -38,6 +42,7 @@ export default function fullTest() {
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
     const [score, setScore] = useState<number>(0);
+    const [answers, setAnswers] = useState<Answer[]>([]);
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
     const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
@@ -62,7 +67,7 @@ export default function fullTest() {
 
     const handleSelectChoice = (choiceId: number, isCorrect: boolean) => {
         setSelectedChoice(choiceId);
-
+        setAnswers(prev=>[...prev, { questionChoiceId: choiceId}])
         if (isCorrect) {
             setScore(prev => prev + 1);
         }
@@ -90,7 +95,8 @@ export default function fullTest() {
                 score: score,
                 dateTaken: new Date().toISOString().split('T')[0],
                 testId: id,
-                userId: user.result.id
+                userId: user.result.id,
+                answers: answers
             }
             await authApis.post(endpoints["addTestResult"], body);
             router.push(`/tests/${id}`);

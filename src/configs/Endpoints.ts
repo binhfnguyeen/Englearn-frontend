@@ -13,6 +13,7 @@ const endpoints = {
     fullTests: (id: number) => `/tests/full/${id}`,
     testResults: (id: number) => `/tests/${id}/results`,
     addTestResult: "/test-results",
+    answers: (trId: number) => `/test-results/${trId}/answer`,
     learnedWords: "/learnedWords",
     learnedWord: (id: number) => `/learnedWords/${id}`
 }

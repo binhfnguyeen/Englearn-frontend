@@ -152,44 +152,46 @@ export default function StartTest() {
 
                     <h4 className="fw-bold mb-3">Kết quả của bạn</h4>
                     {testResult.length > 0 ? (
-                        <Table
-                            striped
-                            bordered={false}
-                            hover
-                            responsive
-                            className="shadow-sm rounded-3 overflow-hidden align-middle text-center"
-                        >
-                            <thead className="bg-primary text-white">
-                                <tr>
-                                    <th style={{ width: "60px" }}>Lần</th>
-                                    <th>Ngày làm</th>
-                                    <th>Điểm</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {testResult.map((result, index) => (
-                                    <tr key={result.id}>
-                                        <td className="fw-bold">{index + 1}</td>
-                                        <td>{new Date(result.dateTaken).toLocaleDateString("vi-VN")}</td>
-                                        <td>
-                                            <span
-                                                className={`fw-bold px-3 py-1 rounded-pill ${result.score >= totalQuestions / 2
-                                                    ? "bg-success text-white" : "bg-danger text-white"}`}
-                                            >
-                                                {result.score}/{totalQuestions}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <Link href={`/tests/${id}/detailTest`} className="btn btn-sm text-decoration-underline">
-                                                Xem chi tiết
-                                            </Link>
-                                        </td>
-
+                        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                            <Table
+                                striped
+                                bordered={false}
+                                hover
+                                responsive
+                                className="shadow-sm rounded-3 overflow-hidden align-middle text-center"
+                            >
+                                <thead className="bg-primary text-white">
+                                    <tr>
+                                        <th style={{ width: "60px" }}>Lần</th>
+                                        <th>Ngày làm</th>
+                                        <th>Điểm</th>
+                                        <th></th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                                </thead>
+                                <tbody>
+                                    {testResult.map((result, index) => (
+                                        <tr key={result.id}>
+                                            <td className="fw-bold">{index + 1}</td>
+                                            <td>{new Date(result.dateTaken).toLocaleDateString("vi-VN")}</td>
+                                            <td>
+                                                <span
+                                                    className={`fw-bold px-3 py-1 rounded-pill ${result.score >= totalQuestions / 2
+                                                        ? "bg-success text-white" : "bg-danger text-white"}`}
+                                                >
+                                                    {result.score}/{totalQuestions}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <Link href={`/tests/${id}/results/${result.id}/detailTest`} className="btn btn-sm text-decoration-underline">
+                                                    Xem chi tiết
+                                                </Link>
+                                            </td>
+
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        </div>
                     ) : (
                         <p className="text-muted fst-italic">
                             Bạn chưa làm bài kiểm tra này.

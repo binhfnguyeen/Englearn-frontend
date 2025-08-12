@@ -33,10 +33,22 @@ interface Explanation {
     relatedWords: string[];
 }
 
+interface Answer {
+    questionChoiceId: UserChoice;
+}
+
+interface UserChoice {
+    id: number;
+    isCorrect: boolean;
+}
+
 export default function detailTest() {
     const { testId } = useParams();
+    const { resultId } = useParams();
     const id = Number(testId);
+    const rsId = Number(resultId);
     const [test, setTest] = useState<TestFull>();
+    const [answers, setAnswers] = useState<Answer[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [explanations, setExplanations] = useState<Explanation[]>([]);
     const [loadingExplain, setLoadingExplain] = useState<boolean>(false);
@@ -72,9 +84,26 @@ export default function detailTest() {
         }
     }
 
+    const loadAnswers = async () => {
+        try {
+            setLoading(true);
+            let res = await Apis.get(endpoints["answers"](rsId));
+            setAnswers(res.data.result);
+            console.info(res.data.result);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         loadFullTest();
     }, [id])
+
+    useEffect(() => {
+        loadAnswers();
+    }, [rsId])
 
     useEffect(() => {
         if (test?.questions?.length) {
@@ -115,14 +144,25 @@ export default function detailTest() {
                                         >
                                             {q.choices.map((c, choiceIndex) => {
                                                 const label = String.fromCharCode(65 + choiceIndex);
+
+                                                const userAnswer = answers.find(a =>
+                                                    q.choices.some(ch => ch.id === a.questionChoiceId.id) &&
+                                                    a.questionChoiceId.id === c.id
+                                                );
+
+                                                const isUserChoice = !!userAnswer;
+                                                const isCorrect = c.isCorrect;
+
+                                                let badge = null;
+                                                if (isCorrect && (!isUserChoice || (isUserChoice && isCorrect))) {
+                                                    badge = <Badge bg="success" className="ms-2">Đáp án đúng</Badge>;
+                                                } else if (isUserChoice && !isCorrect) {
+                                                    badge = <Badge bg="danger" className="ms-2">Bạn chọn</Badge>;
+                                                }
+
                                                 return (
                                                     <li key={c.id}>
-                                                        <strong>{label}.</strong> {c.word}{" "}
-                                                        {c.isCorrect && (
-                                                            <Badge bg="success" className="ms-2">
-                                                                Đáp án đúng
-                                                            </Badge>
-                                                        )}
+                                                        <strong>{label}.</strong> {c.word} {badge}
                                                     </li>
                                                 );
                                             })}
