@@ -15,7 +15,9 @@ const endpoints = {
     addTestResult: "/test-results",
     answers: (trId: number) => `/test-results/${trId}/answer`,
     learnedWords: "/learnedWords",
-    learnedWord: (id: number) => `/learnedWords/${id}`
+    learnedWord: (userId: number) => `/learnedWords/${userId}`,
+    progress: (userId: number) => `/progress/${userId}/overview`,
+    dateLearned:  (userId: number) => `/progress/${userId}/date-learned`
 }
 
 export default endpoints;

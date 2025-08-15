@@ -46,6 +46,8 @@ export default function Profile() {
                     type: "login",
                     payload: profile.data
                 })
+                let dateLearned = await Apis.post(endpoints["dateLearned"](profile.data.result.id))
+                console.info("Điểm danh: " + dateLearned.status);
                 router.push("/")
             }
 

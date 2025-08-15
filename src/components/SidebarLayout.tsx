@@ -39,10 +39,10 @@ export default function Header({ children }: { children: React.ReactNode }) {
                                         <Nav.Link as={Link} href="/tests" className="mb-2 text-dark">
                                             Kiểm tra từ vựng
                                         </Nav.Link>
-                                        <Nav.Link as={Link} href="#" className="mb-2 text-dark">
+                                        <Nav.Link as={Link} href="/conservation" className="mb-2 text-dark">
                                             Luyện nói với chatbot
                                         </Nav.Link>
-                                        <Nav.Link as={Link} href="#" className="mb-2 text-dark">
+                                        <Nav.Link as={Link} href={`/progress/${user.result.id}`} className="mb-2 text-dark">
                                             Theo dõi tiến độ
                                         </Nav.Link>
                                         <Button
