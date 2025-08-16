@@ -1,11 +1,14 @@
 "use client"
 import MySpinner from "@/components/MySpinner";
+import VocabularyBlindBox from "@/components/VocabularyBlindBox";
 import Apis from "@/configs/Apis";
 import endpoints from "@/configs/Endpoints";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Alert, Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-
+import { Alert, Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap";
+import { useWindowSize } from '@react-hook/window-size';
+import ReactConfetti from "react-confetti";
+import { Gift, GiftFill } from "react-bootstrap-icons";
 interface Topic {
     id: number;
     name: string;
@@ -18,6 +21,8 @@ export default function Topics() {
     const [keyword, setKeyword] = useState<string>("");
     const [hasMore, setHasMore] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [showBlindBox, setShowBlindBox] = useState<boolean>(false);
+    const [width, height] = useWindowSize();
 
     const loadTopics = async () => {
         let url = `${endpoints["topics"]}?page=${page}`;
@@ -62,17 +67,31 @@ export default function Topics() {
 
     return (
         <Container className="my-5">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="fw-bold">English Topics</h2>
-                <Form className="mb-4">
-                    <Form.Control
-                        value={keyword}
-                        onChange={kw => setKeyword(kw.target.value)}
-                        type="text"
-                        placeholder="Tìm kiếm chủ đề..."
-                        className="shadow-sm"
-                    />
-                </Form>
+            <div className="p-3 rounded-4 shadow-sm bg-light d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <h2 className="fw-bold text-primary m-0">English Topics</h2>
+
+                <div className="d-flex gap-3 align-items-center flex-wrap">
+                    <Button
+                        style={{background: "linear-gradient(135deg, #6a11cb, #2575fc)"}}
+                        className="px-4 py-2 fw-semibold shadow-sm d-flex align-items-center gap-2 rounded-3"
+                        onClick={() => setShowBlindBox(true)}
+                    >
+                        <GiftFill size={15}/> Open Blind Box
+                    </Button>
+
+                    <Form className="mb-0">
+                        <div className="position-relative">
+                            <Form.Control
+                                value={keyword}
+                                onChange={kw => setKeyword(kw.target.value)}
+                                type="text"
+                                placeholder="Search topics..."
+                                className="shadow-sm rounded-pill ps-4"
+                                style={{ minWidth: "250px" }}
+                            />
+                        </div>
+                    </Form>
+                </div>
             </div>
 
             <Row xs={1} md={2} lg={3} className="g-4">
@@ -110,6 +129,26 @@ export default function Topics() {
                     </Button>
                 </div>
             )}
+
+            {showBlindBox && (
+                <ReactConfetti
+                    width={width}
+                    height={height}
+                    style={{ position: "fixed", top: 0, left: 0, zIndex: 2000 }}
+                />
+            )}
+
+            <Modal
+                show={showBlindBox}
+                onHide={() => setShowBlindBox(false)}
+                size="lg"
+                centered
+                contentClassName="bg-transparent border-0 shadow-none"
+            >
+                <Modal.Body>
+                    <VocabularyBlindBox />
+                </Modal.Body>
+            </Modal>
         </Container>
     );
 }

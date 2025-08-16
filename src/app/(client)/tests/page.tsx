@@ -60,7 +60,7 @@ export default function Tests() {
     return (
         <Container className="my-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="fw-bold">English Tests</h2>
+                <h2 className="fw-bold text-primary m-0">English Tests</h2>
                 <Form className="mb-4">
                     <Form.Control
                         value={keyword}

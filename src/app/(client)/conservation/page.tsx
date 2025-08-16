@@ -8,6 +8,7 @@ import {
     KeyboardFill,
     MicFill,
     MicMuteFill,
+    Robot,
     Send,
     Trash,
     VolumeMute,
@@ -96,8 +97,8 @@ export default function ChatPage() {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    useEffect(()=>{ muteRef.current = mute }, [mute]);
-    useEffect(()=> { ttsSupportedRef.current = ttsSupported}, [ttsSupported]); 
+    useEffect(() => { muteRef.current = mute }, [mute]);
+    useEffect(() => { ttsSupportedRef.current = ttsSupported }, [ttsSupported]);
 
     const speak = (text: string) => {
         if (!ttsSupported) return;
@@ -195,7 +196,11 @@ export default function ChatPage() {
             <div className="d-flex justify-content-between align-items-center p-3 shadow-sm"
                 style={{ background: "#1976d2", color: "white", fontWeight: "600" }}
             >
-                <span>💬 AI Assistant – {conversationId.slice(0, 6)}</span>
+                <span className="d-inline-flex align-items-center gap-2 px-2 py-2 rounded-pill bg-light shadow-sm border border-secondary-subtle">
+                    <Robot size={10} className="text-primary" />
+                    <span className="fw-semibold text-dark">AI Assistant – {conversationId.slice(0, 6)}</span>
+                </span>
+
                 <Button
                     variant={mute ? "outline-light" : "light"}
                     onClick={() => setMute((m) => !m)}
