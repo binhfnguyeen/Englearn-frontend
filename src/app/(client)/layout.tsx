@@ -7,13 +7,15 @@ import MyUserReducer from "@/reducers/MyUserReducer";
 import authApis from "@/configs/AuthApis";
 import endpoints from "@/configs/Endpoints";
 import UserContext from "@/configs/UserContext";
+import AiAssistant from "@/components/AiAssistant";
 
 export default function ClientRootLayout({ children }: { children: React.ReactNode }) {
     const [user, dispatch] = useReducer(MyUserReducer, null);
-    useEffect(()=>{
+
+    useEffect(() => {
         const loadUser = async () => {
             const token = Cookies.get("accessToken");
-            if (token){
+            if (token) {
                 try {
                     let res = await authApis.post(endpoints['profile']);
                     dispatch({
@@ -31,10 +33,11 @@ export default function ClientRootLayout({ children }: { children: React.ReactNo
     }, [])
 
     return (
-        <UserContext.Provider value={{user, dispatch}}>
+        <UserContext.Provider value={{ user, dispatch }}>
             <SidebarLayout>
                 {children}
             </SidebarLayout>
+            <AiAssistant />
             <Footer />
         </UserContext.Provider>
     );

@@ -5,7 +5,7 @@ import endpoints from "@/configs/Endpoints";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card, Col, Image, Row, Badge } from "react-bootstrap";
-import { Calendar3, Book, Trophy } from "react-bootstrap-icons"; // icons bootstrap
+import { Calendar3, Book, Trophy } from "react-bootstrap-icons";
 
 interface User {
     id: number;
@@ -136,46 +136,57 @@ export default function Progress() {
                 </Row>
             </Card>
 
-            <Card className="mt-4 shadow-sm border-0">
-                <Card.Header className="bg-light fw-bold">Danh sách từ đã học</Card.Header>
+            <Card className="mt-4 shadow-sm border-0 rounded-3">
+                <Card.Header className="bg-white fw-bold py-2 border-bottom">
+                    Danh sách từ đã học
+                </Card.Header>
                 <Card.Body
                     style={{
                         maxHeight: "250px",
                         overflowY: "auto",
-                        padding: "0.5rem",
+                        padding: "0.75rem",
                     }}
                 >
                     {learnedWords.length === 0 ? (
-                        <p className="text-muted m-0">Chưa có từ nào được học.</p>
+                        <p className="text-muted m-0 small">Chưa có từ nào được học.</p>
                     ) : (
                         <Row className="g-2">
                             {learnedWords
                                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                                 .map((item) => (
                                     <Col xs={6} sm={4} md={3} key={item.id}>
-                                        <Card
-                                            className="border-0 shadow-sm h-100"
-                                            style={{ fontSize: "0.85rem" }}
-                                        >
+                                        <Card className="border-0 shadow-sm h-100 rounded-3">
                                             <Image
                                                 src={item.vocabularyId.picture}
                                                 alt={item.vocabularyId.word}
                                                 fluid
                                                 style={{
-                                                    height: "100px",
+                                                    height: "90px",
                                                     objectFit: "cover",
                                                     borderTopLeftRadius: "0.5rem",
                                                     borderTopRightRadius: "0.5rem",
                                                 }}
                                             />
                                             <Card.Body className="p-2">
-                                                <div className="fw-bold text-truncate" title={item.vocabularyId.word}>
+                                                <div
+                                                    className="fw-semibold text-truncate"
+                                                    style={{ fontSize: "0.85rem" }}
+                                                    title={item.vocabularyId.word}
+                                                >
                                                     {item.vocabularyId.word}
                                                 </div>
-                                                <Badge bg="secondary" className="mb-1" style={{ fontSize: "0.7rem" }}>
+                                                <Badge
+                                                    bg="light"
+                                                    text="dark"
+                                                    className="mb-1"
+                                                    style={{ fontSize: "0.65rem" }}
+                                                >
                                                     {item.vocabularyId.partOfSpeech}
                                                 </Badge>
-                                                <div className="text-muted text-truncate" title={item.vocabularyId.meaning}>
+                                                <div
+                                                    className="text-muted text-truncate small"
+                                                    title={item.vocabularyId.meaning}
+                                                >
                                                     {item.vocabularyId.meaning}
                                                 </div>
                                             </Card.Body>
@@ -186,6 +197,7 @@ export default function Progress() {
                     )}
                 </Card.Body>
             </Card>
+
         </div>
     );
 }

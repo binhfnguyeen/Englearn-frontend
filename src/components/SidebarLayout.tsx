@@ -1,11 +1,16 @@
 "use client"
-import { Alert, Button, Col, Container, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
+import { Button, Col, Container, Nav, Row } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import UserContext from "@/configs/UserContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Header({ children }: { children: React.ReactNode }) {
+    useEffect(()=>{
+        import("bootstrap/dist/js/bootstrap.bundle.min.js");
+    }, []);
+    const router = useRouter();
     const context = useContext(UserContext);
 
     if (!context) return null;
@@ -26,7 +31,18 @@ export default function Header({ children }: { children: React.ReactNode }) {
                             className="d-flex flex-column bg-white shadow-sm p-3"
                             style={{ minHeight: "100vh" }}
                         >
-                            <h1 className="fw-bold text-primary mb-4 text-center" style={{ fontSize: "2rem" }}>
+                            <h1
+                                className="fw-bold text-primary mb-4 text-center"
+                                style={{
+                                    fontSize: "2rem",
+                                    cursor: "pointer",
+                                    userSelect: "none",
+                                    transition: "color 0.2s ease"
+                                }}
+                                onClick={() => {
+                                    router.push("/");
+                                }}
+                            >
                                 ELearnWeb
                             </h1>
                             <h6 className="text-muted mb-3">Chức năng</h6>
