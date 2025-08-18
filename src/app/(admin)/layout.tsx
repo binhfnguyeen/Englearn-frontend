@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useReducer } from "react";
-import AdminSidebarLayout from "@/components/AdminSidebarLayout";
+import AdminSidebarLayout from "@/components/Sidebar/AdminSidebarLayout";
 import Footer from "@/components/Footer";
 import MyUserReducer from "@/reducers/MyUserReducer";
 import UserContext from "@/configs/UserContext";

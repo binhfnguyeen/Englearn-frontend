@@ -1,5 +1,5 @@
 "use client"
-import SidebarLayout from "@/components/SidebarLayout";
+import SidebarLayout from "@/components/Sidebar/SidebarLayout";
 import Footer from "@/components/Footer";
 import Cookies from "js-cookie";
 import { useEffect, useReducer } from "react";

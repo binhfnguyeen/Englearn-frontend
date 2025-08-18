@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    const publicPaths = ["/", "/login", "/register"]; 
+    const publicPaths = ["/", "/login", "/register", "/forgot-password"]; 
     if (!token && !publicPaths.includes(pathname)) {
         return NextResponse.redirect(new URL("/", request.url));
     }
@@ -39,5 +39,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/((?!_next|api|static|favicon.ico).*)"], 
+    matcher: ["/((?!_next|api|static|favicon.ico|template).*)"], 
 };

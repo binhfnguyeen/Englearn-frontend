@@ -17,7 +17,9 @@ const endpoints = {
     learnedWords: "/learnedWords",
     learnedWord: (userId: number) => `/learnedWords/${userId}`,
     progress: (userId: number) => `/progress/${userId}/overview`,
-    dateLearned:  (userId: number) => `/progress/${userId}/date-learned`
+    dateLearned:  (userId: number) => `/progress/${userId}/date-learned`,
+    resetPassword: "/reset-password",
+    forgotPassword: "/forgot-password"
 }
 
 export default endpoints;
