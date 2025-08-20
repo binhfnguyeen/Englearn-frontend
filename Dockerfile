@@ -8,9 +8,12 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# copy lockfile để pnpm install
-COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile
+# Copy toàn bộ file lock và workspace config
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* ./
+
+# Force install with ignore-scripts để tránh lỗi build native deps
+RUN pnpm install --frozen-lockfile --ignore-scripts
+
 
 FROM base AS builder
 WORKDIR /app
