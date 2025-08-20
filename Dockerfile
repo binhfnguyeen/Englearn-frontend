@@ -9,7 +9,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Copy toàn bộ file lock và workspace config
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* ./
+COPY package.json pnpm-lock.yaml ./
 
 # Force install with ignore-scripts để tránh lỗi build native deps
 RUN pnpm install --frozen-lockfile --ignore-scripts
