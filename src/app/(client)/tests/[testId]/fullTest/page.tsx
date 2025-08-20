@@ -35,7 +35,7 @@ interface Answer{
     questionChoiceId: number;
 }
 
-export default function fullTest() {
+export default function FullTest() {
     const { testId } = useParams();
     const id = Number(testId);
     const [test, setTest] = useState<TestFull>();
