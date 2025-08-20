@@ -1,28 +1,27 @@
 ##### Dockerfile #####
 FROM node:22.14-alpine AS base
 
+# Install pnpm globally
 RUN npm install -g pnpm
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+# copy lockfile để pnpm install
 COPY package.json pnpm-lock.yaml* ./
-
 RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
-
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-RUN pnpm build
+RUN pnpm run build
 
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV=production
+ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
