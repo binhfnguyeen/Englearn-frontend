@@ -148,7 +148,7 @@ export default function RegisterForm() {
 
                 <div className={styles.group}>
                     <a href="/login">Sign in</a>
-                    <a href="#">Forget password</a>
+                    <a href="/forgot-pasword">Forget password</a>
                 </div>
             </form>
         </div>
