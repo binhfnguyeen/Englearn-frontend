@@ -1,23 +1,28 @@
 ##### Dockerfile #####
 FROM node:22.14-alpine AS base
 
+RUN npm install -g pnpm
+
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN npm install --frozen-lockfile
+COPY package.json pnpm-lock.yaml* ./
+
+RUN pnpm install --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+
+RUN pnpm build
 
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
