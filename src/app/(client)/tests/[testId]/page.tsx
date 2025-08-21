@@ -62,10 +62,8 @@ export default function StartTest() {
     const [testResult, setTestResult] = useState<Result[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const context = useContext(UserContext);
+    const user = context?.user;
     const router = useRouter();
-
-    if (!context) return null;
-    const { user } = context;
 
     const loadFullTest = async () => {
         try {
@@ -93,6 +91,7 @@ export default function StartTest() {
 
     const loadTestResults = async () => {
         try {
+            if (!user) return;
             setLoading(true);
             const res = await Apis.get(endpoints["testResults"](id), {
                 params: { userId: user.id }
@@ -115,6 +114,10 @@ export default function StartTest() {
     }, [id])
 
     const totalQuestions = fullTest?.questions.length || 0;
+
+    if (!user) {
+        return <p className="text-muted">Bạn cần đăng nhập để làm bài kiểm tra.</p>;
+    }
 
     return (
         <Container className="my-5">

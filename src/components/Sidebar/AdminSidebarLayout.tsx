@@ -15,16 +15,22 @@ export default function Header({ children }: { children: React.ReactNode; }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
-    if (!context) return null;
-
-    const { user, dispatch } = context;
-
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 992);
         handleResize();
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    if (!context) {
+        return (
+            <div className="p-4 text-center">
+                <p>Không tìm thấy context người dùng.</p>
+            </div>
+        );
+    }
+
+    const { user, dispatch } = context;
 
     const handleLogout = () => {
         dispatch({ type: "logout" });

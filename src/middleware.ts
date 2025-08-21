@@ -22,15 +22,19 @@ export async function middleware(request: NextRequest) {
                 if (payload.scope !== "ROLE_ADMIN") {
                     return NextResponse.redirect(new URL("/not-found", request.url));
                 }
-            } catch (err: any) {
-                console.error("JWT Verification failed:", err.message);
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    console.error("JWT Verification failed:", err.message);
+                } else {
+                    console.error("JWT Verification failed:", err);
+                }
                 return NextResponse.redirect(new URL("/admin/login", request.url));
             }
         }
         return NextResponse.next();
     }
 
-    const publicPaths = ["/", "/login", "/register", "/forgot-password"]; 
+    const publicPaths = ["/", "/login", "/register", "/forgot-password"];
     if (!token && !publicPaths.includes(pathname)) {
         return NextResponse.redirect(new URL("/", request.url));
     }
@@ -39,5 +43,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/((?!_next|api|static|favicon.ico|template).*)"], 
+    matcher: ["/((?!_next|api|static|favicon.ico|template).*)"],
 };

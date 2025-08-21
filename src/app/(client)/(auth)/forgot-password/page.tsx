@@ -20,8 +20,12 @@ export default function ForgotPassword() {
             await Apis.post(endpoints["forgotPassword"], { email: email });
             setMsg("Mã OTP đã được gửi đến email của bạn!");
             setStep(2);
-        } catch (err: any) {
-            console.error(err);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.error(err.message);
+            } else {
+                console.error(err);
+            }
             setMsg("Gửi OTP thất bại!");
         } finally {
             setLoading(false);
@@ -36,15 +40,19 @@ export default function ForgotPassword() {
                 otp: otp,
                 newPassword: newPassword
             }
-            await Apis.post(endpoints["resetPassword"], body );
+            await Apis.post(endpoints["resetPassword"], body);
             setMsg("Đổi mật khẩu thành công! Hãy đăng nhập lại.");
             setStep(1);
             setEmail("");
             setOTP("");
             setNewPassword("");
             router.push("/login");
-        } catch (err: any) {
-            console.error(err);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.error(err.message);
+            } else {
+                console.error(err);
+            }
             setMsg("OTP không hợp lệ hoặc đã hết hạn!");
         } finally {
             setLoading(false);

@@ -1,20 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { v4 as uuidv4 } from "uuid";
 import { Form, Button } from "react-bootstrap";
-import {
-    KeyboardFill,
-    MicFill,
-    MicMuteFill,
-    Robot,
-    Send,
-    Trash,
-    VolumeMute,
-    VolumeUp,
-    X,
-} from "react-bootstrap-icons";
+import { KeyboardFill, MicFill, MicMuteFill, Robot, Send, Trash, VolumeMute, VolumeUp, X } from "react-bootstrap-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import cleanOutput from "@/components/CleanOutput";
 
@@ -23,12 +13,10 @@ interface Message {
     text: string;
 }
 
-type SpeechRecType = typeof window extends any
-    ? (Window & typeof globalThis) & {
-        webkitSpeechRecognition?: any;
-        SpeechRecognition?: any;
-    }
-    : any;
+type SpeechRecType = {
+    webkitSpeechRecognition?: typeof SpeechRecognition;
+    SpeechRecognition?: typeof SpeechRecognition;
+};
 
 export default function ChatPage() {
     const [conversationId, setConversationId] = useState<string>("");
@@ -42,7 +30,7 @@ export default function ChatPage() {
 
     const clientRef = useRef<Client | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const recognitionRef = useRef<any>(null);
+    const recognitionRef = useRef<SpeechRecognition | null>(null);
     const speakingRef = useRef(false);
     const muteRef = useRef(mute);
     const ttsSupportedRef = useRef(ttsSupported);
@@ -70,7 +58,7 @@ export default function ChatPage() {
 
         setMessages([{ sender: "bot", text: "👋 Hi! What do you want to learn today?" }]);
 
-        const socket = new SockJS("http://localhost:8080/elearn/ws-chat");
+        const socket = new SockJS("https://englearn-backend.onrender.com/elearn/ws-chat");
         const client = new Client({
             webSocketFactory: () => socket,
             reconnectDelay: 5000,
@@ -100,7 +88,7 @@ export default function ChatPage() {
     useEffect(() => { muteRef.current = mute }, [mute]);
     useEffect(() => { ttsSupportedRef.current = ttsSupported }, [ttsSupported]);
 
-    const speak = (text: string) => {
+    const speak = useCallback((text: string) => {
         if (!ttsSupported) return;
         const synth = window.speechSynthesis;
         if (speakingRef.current) synth.cancel();
@@ -115,14 +103,12 @@ export default function ChatPage() {
             speakingRef.current = false;
         };
         synth.speak(utt);
-    };
+    }, [ttsSupported]);
 
     const startMic = () => {
         if (!sttSupported || recognitionRef.current) return;
 
-        const SR =
-            (window as any).webkitSpeechRecognition ||
-            (window as any).SpeechRecognition;
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
         const rec = new SR();
         rec.lang = "en-US";
         rec.continuous = true;
@@ -130,7 +116,7 @@ export default function ChatPage() {
 
         let finalTranscript = "";
 
-        rec.onresult = (event: any) => {
+        rec.onresult = (event: SpeechRecognitionEvent) => {
             let interim = "";
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const transcript = event.results[i][0].transcript;
@@ -143,8 +129,8 @@ export default function ChatPage() {
             setInput(finalTranscript ? finalTranscript : interim);
         };
 
-        rec.onerror = (e: any) => {
-            console.error("STT error:", e.error);
+        rec.onerror = (e: SpeechRecognitionErrorEvent) => {
+            console.error("STT error:", e.error, e.message);
         };
 
         rec.onend = () => {

@@ -40,10 +40,10 @@ export default function VocabularyBlindBox() {
   const [flipped, setFlipped] = useState<boolean[]>([false, false, false]);
 
   const context = useContext(UserContext);
-  if (!context) return null;
-  const { user } = context;
+  const user = context?.user;
 
   const loadProgress = async () => {
+    if (!user) return;
     try {
       setLoading(true);
       const res = await Apis.get(endpoints["progress"](user.id));
@@ -87,6 +87,7 @@ export default function VocabularyBlindBox() {
   }, [words]);
 
   useEffect(() => {
+    if (user)
     loadProgress();
   }, [user])
 
@@ -94,7 +95,11 @@ export default function VocabularyBlindBox() {
     if (progress)
       loadWords(progress);
   }, [progress])
-
+  
+  if (!user) {
+    return <p>Bạn cần đăng nhập để xem Blind Box.</p>;
+  }
+  
   return (
     <div className={styles.container}>
       {words.map((w, index) => (

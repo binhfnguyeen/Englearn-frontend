@@ -25,15 +25,12 @@ export default function Learning() {
     const id = Number(topicId);
     const router = useRouter();
     const context = useContext(UserContext);
+    const user = context?.user;
     const [total, setTotal] = useState<number>(0);
     const [vocabularies, setVocabularies] = useState<Vocabulary[]>([]);
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState<boolean>(false);
     const [hasMore, setHasMore] = useState<boolean>(false);
-
-    if (!context) return null;
-
-    const { user, dispatch } = context;
 
     const loadVocabularies = async () => {
         const url = `${endpoints["topic_vocabs"](id)}?page=${page}&size=1`;
@@ -71,8 +68,7 @@ export default function Learning() {
 
     const handleNext = async (vocabId: number) => {
         try {
-            const currentDate = new Date().getDate();
-
+            if (!user) return;
             await Apis.post(endpoints["learnedWords"], {
                 date: new Date().toISOString().split('T')[0],
                 userId: user.id,
@@ -100,6 +96,7 @@ export default function Learning() {
         });
 
         try {
+            if (!user) return;
             await Apis.post(endpoints["learnedWords"], {
                 date: new Date().toISOString().split('T')[0],
                 userId: user.id,

@@ -48,10 +48,7 @@ export default function FullTest() {
     const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
 
     const context = useContext(UserContext);
-
-    if (!context) return null;
-
-    const { user } = context;
+    const user = context?.user;
 
     const loadFullTest = async () => {
         try {
@@ -91,6 +88,8 @@ export default function FullTest() {
         });
 
         try {
+            if (!user) return;
+
             const body = {
                 score: score,
                 dateTaken: new Date().toISOString().split('T')[0],
@@ -108,6 +107,11 @@ export default function FullTest() {
     useEffect(() => {
         loadFullTest();
     }, [id])
+
+    if (!user) {
+        return <p className="text-muted">Bạn cần đăng nhập để làm bài kiểm tra.</p>;
+    }
+    
     return (
         <Container className="my-5">
             <div className="d-flex justify-content-between align-items-center mb-4">

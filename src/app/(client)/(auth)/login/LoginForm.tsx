@@ -18,7 +18,11 @@ export default function LoginForm() {
 
     const [user, setUser] = useState<{ [key: string]: string }>({});
     const router = useRouter();
-    const { dispatch } = useContext(UserContext)!;
+    const userContext = useContext(UserContext);
+    if (!userContext) {
+        throw new Error("UserContext not found. Wrap component with UserContext.Provider.");
+    }
+    const { dispatch } = userContext;
 
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

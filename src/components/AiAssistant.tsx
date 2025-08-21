@@ -22,10 +22,7 @@ export default function ChatAssistant() {
     const clientRef = useRef<Client | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const context = useContext(UserContext);
-
-    if (!context) return null;
-
-    const { user } = context;
+    const user = context?.user;
 
     useEffect(() => {
         setConversationId(uuidv4());
@@ -36,7 +33,7 @@ export default function ChatAssistant() {
 
         setMessages([{ sender: "bot", text: "Hi! How can I help you?" }]);
 
-        const socket = new SockJS("http://localhost:8080/elearn/ws-chat");
+        const socket = new SockJS("https://englearn-backend.onrender.com/elearn/ws-chat");
         const client = new Client({
             webSocketFactory: () => socket,
             reconnectDelay: 5000,
@@ -89,6 +86,10 @@ export default function ChatAssistant() {
         };
     });
 
+    if (!user) {
+        return null;
+    }
+
     return (
         <>
             {!isOpen && user && (
@@ -115,12 +116,12 @@ export default function ChatAssistant() {
                     <Button
                         variant="primary"
                         className="rounded-circle shadow position-relative"
-                        style={{ 
-                            background: "linear-gradient(135deg, #4facfe, #00f2fe)", 
-                            width: "60px", 
+                        style={{
+                            background: "linear-gradient(135deg, #4facfe, #00f2fe)",
+                            width: "60px",
                             height: "60px",
                             border: "none"
-                         }}
+                        }}
                         onClick={() => {
                             setIsOpen(true);
                             setShowHint(false);
