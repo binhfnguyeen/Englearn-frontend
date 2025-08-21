@@ -26,7 +26,6 @@ export default function LoginForm() {
 
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("URL ", process.env.NEXT_PUBLIC_BASE_URL)
         try {
             setLoading(true);
             const res = await Apis.post(endpoints["login"], { ...user });

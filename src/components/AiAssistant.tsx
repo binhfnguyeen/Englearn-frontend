@@ -15,6 +15,7 @@ interface Message {
 
 export default function ChatAssistant() {
     const [isOpen, setIsOpen] = useState(false);
+    const [connected, setConnected] = useState(false);
     const [conversationId, setConversationId] = useState<string>("");
     const [messages, setMessages] = useState<Message[]>([]);
     const [showHint, setShowHint] = useState(false);
@@ -38,15 +39,15 @@ export default function ChatAssistant() {
             webSocketFactory: () => socket,
             reconnectDelay: 5000,
             onConnect: () => {
-                console.log("Connected to WebSocket");
+                setConnected(true);
                 client.subscribe(`/topic/conversation/${conversationId}`, (message) => {
                     const cleanText = cleanOutput(message.body);
                     setMessages((prev) => [...prev, { sender: "bot", text: cleanText }]);
                 });
             },
             onDisconnect: () => {
-                console.log("Disconnected from WebSocket");
-            },
+                setConnected(false);
+            }
         });
 
         client.activate();
@@ -59,7 +60,7 @@ export default function ChatAssistant() {
     }, [conversationId]);
 
     const sendMessage = () => {
-        if (!input.trim() || !clientRef.current) return;
+        if (!input.trim() || !clientRef.current || !connected) return;
 
         setMessages((prev) => [...prev, { sender: "you", text: input.trim() }]);
 
