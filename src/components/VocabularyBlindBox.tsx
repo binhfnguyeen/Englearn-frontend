@@ -46,7 +46,7 @@ export default function VocabularyBlindBox() {
   const loadProgress = async () => {
     try {
       setLoading(true);
-      let res = await Apis.get(endpoints["progress"](user.result.id));
+      const res = await Apis.get(endpoints["progress"](user.id));
       setProgress(res.data.result);
     } catch (err) {
       console.error(err);

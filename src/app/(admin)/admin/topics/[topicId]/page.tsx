@@ -38,7 +38,7 @@ export default function VocabTopic() {
 
         try {
             setLoading(true);
-            let res = await Apis.get(url);
+            const res = await Apis.get(url);
             const content = res.data.result.content || [];
             setHasMore(!res.data.result.last)
 
@@ -56,7 +56,7 @@ export default function VocabTopic() {
 
     useEffect(() => {
         setLoading(true);
-        let timer = setTimeout(() => {
+        const timer = setTimeout(() => {
             if (page === 0 || (page > 0 && hasMore)) {
                 loadVocabularies();
             }

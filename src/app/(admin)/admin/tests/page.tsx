@@ -26,7 +26,7 @@ export default function Tests() {
 
         try {
             setLoading(true);
-            let res = await Apis.get(url);
+            const res = await Apis.get(url);
             const content = res.data.result.content || [];
             setHasMore(!res.data.result.last);
 

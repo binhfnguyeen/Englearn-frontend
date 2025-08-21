@@ -36,10 +36,10 @@ export default function Learning() {
     const { user, dispatch } = context;
 
     const loadVocabularies = async () => {
-        let url = `${endpoints["topic_vocabs"](id)}?page=${page}&size=1`;
+        const url = `${endpoints["topic_vocabs"](id)}?page=${page}&size=1`;
         try {
             setLoading(true);
-            let res = await Apis.get(url);
+            const res = await Apis.get(url);
 
             const content = res.data.result.content || [];
             setHasMore(!res.data.result.last)
@@ -75,7 +75,7 @@ export default function Learning() {
 
             await Apis.post(endpoints["learnedWords"], {
                 date: new Date().toISOString().split('T')[0],
-                userId: user.result.id,
+                userId: user.id,
                 vocabularyId: vocabId
             });
         } catch (err) {
@@ -102,7 +102,7 @@ export default function Learning() {
         try {
             await Apis.post(endpoints["learnedWords"], {
                 date: new Date().toISOString().split('T')[0],
-                userId: user.result.id,
+                userId: user.id,
                 vocabularyId: vocabId
             });
 

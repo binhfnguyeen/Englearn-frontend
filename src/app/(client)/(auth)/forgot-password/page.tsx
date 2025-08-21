@@ -17,7 +17,7 @@ export default function ForgotPassword() {
     const handleForgotPassword = async () => {
         try {
             setLoading(true);
-            const res = await Apis.post(endpoints["forgotPassword"], { email: email });
+            await Apis.post(endpoints["forgotPassword"], { email: email });
             setMsg("Mã OTP đã được gửi đến email của bạn!");
             setStep(2);
         } catch (err: any) {
@@ -36,7 +36,7 @@ export default function ForgotPassword() {
                 otp: otp,
                 newPassword: newPassword
             }
-            const res = await Apis.post(endpoints["resetPassword"], body );
+            await Apis.post(endpoints["resetPassword"], body );
             setMsg("Đổi mật khẩu thành công! Hãy đăng nhập lại.");
             setStep(1);
             setEmail("");

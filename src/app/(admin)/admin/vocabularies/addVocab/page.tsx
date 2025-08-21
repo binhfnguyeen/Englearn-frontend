@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react"
 import { Alert, Button, Card, Col, Container, Form, Nav, Row, Spinner } from "react-bootstrap";
 
-export default function addVocabs() {
+export default function AddVocabs() {
     const imageRef = useRef<HTMLInputElement>(null);
     const audioRef = useRef<HTMLInputElement>(null);
     const [word, setWord] = useState<string>("");
@@ -43,7 +43,7 @@ export default function addVocabs() {
                 formData.append("picture", imageRef.current.files[0]);
             }
 
-            let res = await authApis.post(endpoints["vocabularies"], formData);
+            const res = await authApis.post(endpoints["vocabularies"], formData);
             console.info(res.data);
 
             setMsg("Thêm từ vựng mới thành công!");

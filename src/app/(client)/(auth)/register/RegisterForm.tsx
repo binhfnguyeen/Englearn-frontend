@@ -71,8 +71,8 @@ export default function RegisterForm() {
         if (validate()) {
             try {
                 setLoading(true);
-                let formData = new FormData();
-                for (let key in user) {
+                const formData = new FormData();
+                for (const key in user) {
                     const typedKey = key as keyof User;
                     if (typedKey !== "confirm") {
                         formData.append(typedKey, user[typedKey]);

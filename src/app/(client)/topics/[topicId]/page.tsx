@@ -23,7 +23,7 @@ export default function StartLearn() {
     const loadTopic = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["topic"](id));
+            const res = await Apis.get(endpoints["topic"](id));
             setTopic(res.data.result);
         } catch (err) {
             console.error(err);

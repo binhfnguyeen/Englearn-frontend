@@ -71,10 +71,13 @@ export default function AddTestFull() {
         questionIndex: number,
         choiceIndex: number,
         field: keyof ChoiceForm,
-        value: any
+        value: ChoiceForm[typeof field]
     ) => {
         const updated = [...questions];
-        (updated[questionIndex].choices[choiceIndex] as any)[field] = value;
+        updated[questionIndex].choices[choiceIndex] = {
+            ...updated[questionIndex].choices[choiceIndex],
+            [field]: value,
+        };
         setQuestions(updated);
     };
 

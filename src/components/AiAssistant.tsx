@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { ChatDots, Robot, Send, XLg } from "react-bootstrap-icons";
+import { Robot, Send, XLg } from "react-bootstrap-icons";
 import { Button, Card, Form } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import SockJS from "sockjs-client";

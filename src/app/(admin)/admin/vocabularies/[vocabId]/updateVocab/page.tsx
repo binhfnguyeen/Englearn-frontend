@@ -16,7 +16,7 @@ interface Vocabulary {
     picture: string;
 }
 
-export default function updateVocab() {
+export default function UpdateVocab() {
     const { vocabId } = useParams();
     const id = Number(vocabId);
     const imageRef = useRef<HTMLInputElement>(null);
@@ -33,7 +33,7 @@ export default function updateVocab() {
     const loadVocabulary = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["vocabulary"](id));
+            const res = await Apis.get(endpoints["vocabulary"](id));
             setVocabulary(res.data.result);
         } catch (err) {
             console.error(err);
@@ -58,7 +58,7 @@ export default function updateVocab() {
                 formData.append("picture", imageRef.current.files[0]);
             }
 
-            let res = await authApis.post(endpoints["vocabularies"], formData);
+            const res = await authApis.post(endpoints["vocabularies"], formData);
             console.info(res.data);
 
             setMsg("Cập nhật từ vựng thành công!");

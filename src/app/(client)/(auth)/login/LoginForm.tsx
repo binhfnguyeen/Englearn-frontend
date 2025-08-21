@@ -24,14 +24,14 @@ export default function LoginForm() {
         e.preventDefault();
         try {
             setLoading(true);
-            let res = await Apis.post(endpoints["login"], { ...user });
+            const res = await Apis.post(endpoints["login"], { ...user });
 
             if (res.data.code == 1000) {
                 const token = res.data.result.token;
                 Cookies.set("accessToken", token, { path: "/", sameSite: "lax" });
 
-                let profile = await authApis.post(endpoints["profile"]);
-                dispatch({ type: "login", payload: profile.data });
+                const profile = await authApis.post(endpoints["profile"]);
+                dispatch({ type: "login", payload: profile.data.result });
                 await Apis.post(endpoints["dateLearned"](profile.data.result.id));
                 router.push("/");
             }

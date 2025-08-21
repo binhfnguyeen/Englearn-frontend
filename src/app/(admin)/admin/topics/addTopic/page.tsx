@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react"
 import { Alert, Button, Card, Col, Container, Form, Nav, Row, Spinner } from "react-bootstrap";
 
-export default function addTopic() {
+export default function AddTopic() {
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -19,7 +19,7 @@ export default function addTopic() {
                 name,
                 description
             }
-            let res = await authApis.post(endpoints["topics"], body);
+            const res = await authApis.post(endpoints["topics"], body);
             console.info(res.data);
             setName("");
             setDescription("");

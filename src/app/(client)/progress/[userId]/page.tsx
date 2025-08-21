@@ -53,7 +53,7 @@ export default function Progress() {
     const loadProgress = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["progress"](id));
+            const res = await Apis.get(endpoints["progress"](id));
             setProgress(res.data.result);
         } catch (err) {
             console.error(err);
@@ -65,7 +65,7 @@ export default function Progress() {
     const loadLearnedWords = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["learnedWord"](id));
+            const res = await Apis.get(endpoints["learnedWord"](id));
             setLearnedWords(res.data.result);
         } catch (err) {
             console.error(err);

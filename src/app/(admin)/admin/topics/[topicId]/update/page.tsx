@@ -13,7 +13,7 @@ interface Topic {
     description: string
 }
 
-export default function update() {
+export default function Update() {
     const { topicId } = useParams();
     const id = Number(topicId);
     const [name, setName] = useState<string>("");
@@ -25,7 +25,7 @@ export default function update() {
     const loadTopic = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["topic"](id));
+            const res = await Apis.get(endpoints["topic"](id));
             setTopic(res.data.result);
         } catch (ex) {
             console.error(ex);
@@ -43,7 +43,7 @@ export default function update() {
                 name,
                 description
             }
-            let res = await authApis.post(endpoints["topics"], body);
+            const res = await authApis.post(endpoints["topics"], body);
             console.info(res.data);
             setMsg("Cập nhật chủ đề thành công!");
         } catch (ex) {

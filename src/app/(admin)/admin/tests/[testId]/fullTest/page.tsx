@@ -27,7 +27,7 @@ interface Choice {
     word: string;
 }
 
-export default function fullTest() {
+export default function FullTest() {
     const { testId } = useParams();
     const id = Number(testId);
     const [test, setTest] = useState<TestFull>();
@@ -36,7 +36,7 @@ export default function fullTest() {
     const loadFullTest = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["fullTests"](id));
+            const res = await Apis.get(endpoints["fullTests"](id));
             setTest(res.data.result);
         } catch (err) {
             console.error(err);

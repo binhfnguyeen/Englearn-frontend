@@ -42,7 +42,7 @@ interface UserChoice {
     isCorrect: boolean;
 }
 
-export default function detailTest() {
+export default function DetailTest() {
     const { testId } = useParams();
     const { resultId } = useParams();
     const id = Number(testId);
@@ -56,7 +56,7 @@ export default function detailTest() {
     const loadFullTest = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["fullTests"](id));
+            const res = await Apis.get(endpoints["fullTests"](id));
             setTest(res.data.result);
         } catch (err) {
             console.error(err);
@@ -87,7 +87,7 @@ export default function detailTest() {
     const loadAnswers = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["answers"](rsId));
+            const res = await Apis.get(endpoints["answers"](rsId));
             setAnswers(res.data.result);
             console.info(res.data.result);
         } catch (err) {

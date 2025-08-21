@@ -17,10 +17,10 @@ export default function ClientRootLayout({ children }: { children: React.ReactNo
             const token = Cookies.get("accessToken");
             if (token) {
                 try {
-                    let res = await authApis.post(endpoints['profile']);
+                    const res = await authApis.post(endpoints['profile']);
                     dispatch({
                         type: "login",
-                        payload: res.data
+                        payload: res.data.result
                     })
                 } catch (err) {
                     console.error("Không thể load user từ token ", err);

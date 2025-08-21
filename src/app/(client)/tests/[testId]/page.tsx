@@ -70,7 +70,7 @@ export default function StartTest() {
     const loadFullTest = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["fullTests"](id));
+            const res = await Apis.get(endpoints["fullTests"](id));
             setFullTest(res.data.result);
         } catch (err) {
             console.error(err);
@@ -82,7 +82,7 @@ export default function StartTest() {
     const loadTest = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["Test"](id));
+            const res = await Apis.get(endpoints["Test"](id));
             setTest(res.data.result);
         } catch (err) {
             console.error(err);
@@ -94,8 +94,8 @@ export default function StartTest() {
     const loadTestResults = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["testResults"](id), {
-                params: { userId: user.result.id }
+            const res = await Apis.get(endpoints["testResults"](id), {
+                params: { userId: user.id }
             });
             setTestResult(res.data.result);
         } catch (err) {

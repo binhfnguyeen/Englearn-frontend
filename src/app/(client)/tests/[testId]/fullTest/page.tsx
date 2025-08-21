@@ -8,7 +8,7 @@ import UserContext from "@/configs/UserContext";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import { Badge, Button, Card, Container, ListGroup, Nav } from "react-bootstrap";
+import { Button, Card, Container, ListGroup, Nav } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 interface TestFull {
@@ -56,7 +56,7 @@ export default function FullTest() {
     const loadFullTest = async () => {
         try {
             setLoading(true);
-            let res = await Apis.get(endpoints["fullTests"](id));
+            const res = await Apis.get(endpoints["fullTests"](id));
             setTest(res.data.result);
         } catch (err) {
             console.error(err);
@@ -95,7 +95,7 @@ export default function FullTest() {
                 score: score,
                 dateTaken: new Date().toISOString().split('T')[0],
                 testId: id,
-                userId: user.result.id,
+                userId: user.id,
                 answers: answers
             }
             await authApis.post(endpoints["addTestResult"], body);

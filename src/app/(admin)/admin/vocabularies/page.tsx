@@ -6,7 +6,7 @@ import authApis from "@/configs/AuthApis";
 import endpoints from "@/configs/Endpoints";
 import Link from "next/link";
 import React, { useEffect, useState } from "react"
-import { Alert, Button, Card, Col, Container, Form, Nav, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 
 interface Vocabulary {
     id: number;
@@ -31,7 +31,7 @@ export default function Vocablaries() {
         }
         try {
             setLoading(true);
-            let res = await Apis.get(url);
+            const res = await Apis.get(url);
 
             const content = res.data.result.content || [];
             setHasMore(!res.data.result.last)
@@ -51,7 +51,7 @@ export default function Vocablaries() {
 
     useEffect(() => {
         setLoading(true);
-        let timer = setTimeout(() => {
+        const timer = setTimeout(() => {
             if (page === 0 || (page > 0 && hasMore)) {
                 loadVocabularies();
             }
@@ -158,7 +158,7 @@ export default function Vocablaries() {
 
             {loading && <MySpinner />}
 
-            {page > 0 && hasMore && <div className="mt-2 mb-2 text-center">
+            {hasMore && <div className="mt-2 mb-2 text-center">
                 <Button variant="primary" onClick={loadMore}>Xem thêm...</Button>
             </div>}
         </Container>

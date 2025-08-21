@@ -30,7 +30,7 @@ export default function AdminLogin() {
 
         try {
             setLoading(true);
-            let res = await Apis.post(endpoints['login'], { ...user });
+            const res = await Apis.post(endpoints['login'], { ...user });
             console.info(res.data);
 
             if (res.data.code == 1000) {
@@ -40,11 +40,11 @@ export default function AdminLogin() {
                     sameSite: "lax",
                 });
 
-                let profile = await authApis.post(endpoints['profile']);
-                console.info(profile.data);
+                const profile = await authApis.post(endpoints['profile']);
+                console.info(profile.data.result);
                 dispatch({
                     type: "login",
-                    payload: profile.data
+                    payload: profile.data.result
                 })
                 router.push("/admin")
             }
