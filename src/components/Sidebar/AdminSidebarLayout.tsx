@@ -94,7 +94,7 @@ export default function Header({ children }: { children: React.ReactNode; }) {
                                 <h6 className="text-muted mb-3">Chức năng</h6>
                                 <Nav defaultActiveKey="/home" className="flex-column">
                                     {user && (
-                                        <Nav defaultActiveKey="/home" className="flex-column">
+                                        <Nav defaultActiveKey="/admin/home" className="flex-column">
                                             <Nav.Link as={Link} href="/admin/topics" className="mb-2 text-dark">
                                                 Thêm chủ đề tiếng Anh
                                             </Nav.Link>

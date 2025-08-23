@@ -8,6 +8,8 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import styles from "@/app/(client)/(auth)/login/Login.module.css";
+import { Alert } from "react-bootstrap";
+import { useEffect } from "react";
 
 export default function LoginForm() {
     const [loading, setLoading] = useState(false);
@@ -19,6 +21,8 @@ export default function LoginForm() {
     const [user, setUser] = useState<{ [key: string]: string }>({});
     const router = useRouter();
     const userContext = useContext(UserContext);
+    const [msg, setMsg] = useState("");
+
     if (!userContext) {
         throw new Error("UserContext not found. Wrap component with UserContext.Provider.");
     }
@@ -37,18 +41,36 @@ export default function LoginForm() {
                 const profile = await authApis.post(endpoints["profile"]);
                 dispatch({ type: "login", payload: profile.data.result });
                 await Apis.post(endpoints["dateLearned"](profile.data.result.id));
+                setMsg("Đăng nhập thành công!")
                 router.push("/");
             }
         } catch (ex) {
             console.error(ex);
+            setMsg("Đăng nhập thất bại!");
         } finally {
             setLoading(false);
         }
     };
 
+    useEffect(() => {
+        if (msg) {
+            const timer = setTimeout(() => setMsg(""), 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [msg]);
+
     return (
         <>
             <h2>Sign In</h2>
+            {msg && (
+                <Alert
+                    variant={msg.includes("thất bại") ? "danger" : "success"}
+                    className="py-2 position-fixed top-0 end-0 m-3 shadow"
+                    style={{ zIndex: 9999, minWidth: "250px" }}
+                >
+                    {msg}
+                </Alert>
+            )}
             <form onSubmit={login}>
                 {info.map(i => (
                     <div key={i.field} className={styles.inputBox}>

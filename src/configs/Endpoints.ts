@@ -16,6 +16,7 @@ const endpoints = {
     answers: (trId: number) => `/test-results/${trId}/answer`,
     learnedWords: "/learnedWords",
     learnedWord: (userId: number) => `/learnedWords/${userId}`,
+    userLearnedWords: "/users/learnedWords",
     progress: (userId: number) => `/progress/${userId}/overview`,
     dateLearned:  (userId: number) => `/progress/${userId}/date-learned`,
     resetPassword: "/reset-password",
