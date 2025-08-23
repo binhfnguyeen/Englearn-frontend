@@ -1,37 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# English Learning Website - Frontend
 
-## Getting Started
+A website which supports users to learn English online, connected with backend APIs.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Table of contents
+- General Information
+- Technology Used
+- Features
+- Setup
+- Project Status
+- Backend Repository
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# General Information
+Nowadays, information technology is developing rapidly, bringing convenience not only in life but also in education.  
+With the popularity of the Internet, learners can access online resources anytime and anywhere.  
+This project focuses on building an **English Learning Website** that helps learners improve vocabulary, practice communication skills, and study more effectively through interactive features.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Technology Used
+- **Next.js**: Frontend framework for building user interface.  
+- **Spring Boot**: Backend framework for creating RESTful APIs.  
+- **MySQL**: Database management system for storing and managing data.  
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Features
+### 1. Vocabulary Learning by Topics  
+- Learn vocabulary with flashcards for each topic.  
+- Support images, pronunciation, and sample sentences.  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Practice Tests  
+- Take quizzes to review learned vocabulary.  
+- Automatic scoring and progress tracking.  
 
-## Deploy on Vercel
+### 3. Speaking with Chatbot  
+- Practice speaking with an AI chatbot.  
+- Real-time response to improve pronunciation and reflexes.  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4. AI Learning Assistant  
+- Virtual assistant that supports learners during their study journey.  
+- Suggests learning paths, reminds revisions, and provides personalized feedback.  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# ELearnWeb
+### 5. Admin Dashboard & Statistics  
+- Manage topics, vocabulary, and test questions.  
+- Track learner statistics: number of learned words, completed topics, and tests taken.  
+
+---
+
+# Setup
+To run this project:
+
+1. Make sure you have **Node.js** installed.  
+2. Clone the repository.  
+3. Navigate to the project directory.  
+4. Run `npm install` to install dependencies.  
+5. Connect the project with the backend API (Spring Boot + MySQL).  
+6. Run `npm run dev` to start the project.  
+
+---
+
+# Project Status
+🚧 Project is under development. More features will be updated soon.
+
+---
+
+# Backend Repository
+🔗 [English Learning Website - Backend](https://github.com/binhfnguyeen/Englearn-backend.git)
