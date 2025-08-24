@@ -79,7 +79,7 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
                                     <h1
                                         className="fw-bold text-primary mb-0"
                                         style={{ fontSize: "1.8rem", cursor: "pointer" }}
-                                        onClick={() => router.push("/admin")}
+                                        onClick={() => router.push("/")}
                                     >
                                         <Image
                                             src="/template/EngLearnLogo.png"
