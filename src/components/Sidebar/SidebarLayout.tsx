@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { List, X } from "react-bootstrap-icons";
 import styles from '@/components/Sidebar/SidebarGlobal.module.css';
+import Image from "next/image";
 
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -46,7 +47,13 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
                                 style={{ fontSize: "1.4rem", cursor: "pointer" }}
                                 onClick={() => router.push("/")}
                             >
-                                ELearnWeb
+                                <Image
+                                    src="/template/EngLearnLogo.png"
+                                    alt="ELearnWeb Logo"
+                                    width={120}
+                                    height={60}
+                                    style={{ objectFit: "contain" }}
+                                />
                             </h1>
                             <Button
                                 variant="light"
@@ -72,9 +79,15 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
                                     <h1
                                         className="fw-bold text-primary mb-0"
                                         style={{ fontSize: "1.8rem", cursor: "pointer" }}
-                                        onClick={() => router.push("/")}
+                                        onClick={() => router.push("/admin")}
                                     >
-                                        ELearnWeb
+                                        <Image
+                                            src="/template/EngLearnLogo.png"
+                                            alt="ELearnWeb Logo"
+                                            width={100}
+                                            height={100}
+                                            style={{ objectFit: "contain" }}
+                                        />
                                     </h1>
                                 )}
                                 <Button

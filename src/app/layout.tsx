@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "ELearnWeb",
+    title: "EngLearn",
     description: "Created by Heulwen",
+    icons: {
+        icon: "/template/EngLearnLogo.png",
+    },
 }
 
 export default function RootLayout({

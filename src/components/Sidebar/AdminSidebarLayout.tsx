@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from '@/components/Sidebar/SidebarGlobal.module.css';
 import { List, X } from "react-bootstrap-icons";
+import Image from "next/image";
 
 export default function Header({ children }: { children: React.ReactNode; }) {
     const router = useRouter();
@@ -48,7 +49,13 @@ export default function Header({ children }: { children: React.ReactNode; }) {
                                     style={{ fontSize: "1.4rem", cursor: "pointer" }}
                                     onClick={() => router.push("/admin")}
                                 >
-                                    ELearnWeb
+                                    <Image
+                                        src="/template/EngLearnLogo.png"
+                                        alt="ELearnWeb Logo"
+                                        width={120}
+                                        height={60}
+                                        style={{ objectFit: "contain" }}
+                                    />
                                 </h1>
                                 <Button
                                     variant="light"
@@ -76,7 +83,13 @@ export default function Header({ children }: { children: React.ReactNode; }) {
                                             style={{ fontSize: "1.8rem", cursor: "pointer" }}
                                             onClick={() => router.push("/admin")}
                                         >
-                                            ELearnWeb
+                                            <Image
+                                                src="/template/EngLearnLogo.png"
+                                                alt="ELearnWeb Logo"
+                                                width={100}
+                                                height={100}
+                                                style={{ objectFit: "contain" }}
+                                            />
                                         </h1>
                                     )}
                                     <Button
