@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Card, Row, Col, Badge, Spinner, Button, Modal } from "react-bootstrap";
 import Image from "next/image";
 import { PeopleFill, TelephoneFill, Trash } from "react-bootstrap-icons";
-import AddAdmin from "./addAdmin/page";
+import AddAdmin from "./addAdmin/AddAdmin";
 
 interface User {
     id: number;
