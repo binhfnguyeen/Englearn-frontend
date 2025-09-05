@@ -20,7 +20,10 @@ const endpoints = {
     progress: (userId: number) => `/progress/${userId}/overview`,
     dateLearned:  (userId: number) => `/progress/${userId}/date-learned`,
     resetPassword: "/reset-password",
-    forgotPassword: "/forgot-password"
+    forgotPassword: "/forgot-password",
+    updateProfile: (userId: number) => `/users/${userId}`,
+    listAdmin: "/secure/users/admin",
+    deleteAdmin: (userId: number) => `/secure/users/${userId}/admin`
 }
 
 export default endpoints;

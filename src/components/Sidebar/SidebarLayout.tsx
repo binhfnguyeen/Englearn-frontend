@@ -110,6 +110,7 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
                                         <Nav.Link as={Link} href="/tests">Kiểm tra từ vựng</Nav.Link>
                                         <Nav.Link as={Link} href="/conservation">Luyện nói với chatbot</Nav.Link>
                                         <Nav.Link as={Link} href={`/progress/${user.id}`}>Theo dõi tiến độ</Nav.Link>
+                                        <Nav.Link as={Link} href={`/profile`}>Thông tin cá nhân</Nav.Link>
                                         <Button
                                             variant="outline-danger"
                                             className="mt-4"

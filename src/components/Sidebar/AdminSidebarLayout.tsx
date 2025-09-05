@@ -117,6 +117,9 @@ export default function Header({ children }: { children: React.ReactNode; }) {
                                             <Nav.Link as={Link} href="/admin/tests" className="mb-2 text-dark">
                                                 Thêm đề ôn tập
                                             </Nav.Link>
+                                            <Nav.Link as={Link} href="/admin/users" className="mb-2 text-dark">
+                                                Thêm quản trị viên
+                                            </Nav.Link>
                                             <Button variant="outline-danger" className="mt-4" onClick={handleLogout}>
                                                 Đăng xuất
                                             </Button>
