@@ -7,6 +7,7 @@ import { Form, Button } from "react-bootstrap";
 import { KeyboardFill, MicFill, MicMuteFill, Robot, Send, Trash, VolumeMute, VolumeUp, X } from "react-bootstrap-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import cleanOutput from "@/components/CleanOutput";
+import useTTS from "@/utils/useTTS";
 
 interface Message {
     sender: "you" | "bot";
@@ -31,9 +32,9 @@ export default function ChatPage() {
     const clientRef = useRef<Client | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const recognitionRef = useRef<SpeechRecognition | null>(null);
-    const speakingRef = useRef(false);
     const muteRef = useRef(mute);
     const ttsSupportedRef = useRef(ttsSupported);
+    const {speak} = useTTS();
 
     useEffect(() => {
         setConversationId(uuidv4());
@@ -87,23 +88,6 @@ export default function ChatPage() {
 
     useEffect(() => { muteRef.current = mute }, [mute]);
     useEffect(() => { ttsSupportedRef.current = ttsSupported }, [ttsSupported]);
-
-    const speak = useCallback((text: string) => {
-        if (!ttsSupported) return;
-        const synth = window.speechSynthesis;
-        if (speakingRef.current) synth.cancel();
-
-        const utt = new SpeechSynthesisUtterance(text);
-        utt.lang = "en-US";
-        utt.rate = 1;
-        utt.onstart = () => {
-            speakingRef.current = true;
-        };
-        utt.onend = () => {
-            speakingRef.current = false;
-        };
-        synth.speak(utt);
-    }, [ttsSupported]);
 
     const startMic = () => {
         if (!sttSupported || recognitionRef.current) return;

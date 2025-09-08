@@ -14,7 +14,6 @@ interface Vocabulary {
     word: string,
     meaning: string,
     partOfSpeech: string,
-    speech: string,
     picture: string
 }
 
@@ -147,13 +146,6 @@ export default function VocabTopic() {
                                     <small className="text-muted">({vocab.partOfSpeech})</small>
                                 </Card.Title>
                                 <Card.Text>{vocab.meaning}</Card.Text>
-
-                                {vocab.speech && (
-                                    <audio controls className="w-100 mb-2">
-                                        <source src={vocab.speech} type="audio/mpeg" />
-                                        Trình duyệt không hỗ trợ phát âm thanh.
-                                    </audio>
-                                )}
 
                                 <div className="d-flex gap-2 mt-2">
                                     <Link

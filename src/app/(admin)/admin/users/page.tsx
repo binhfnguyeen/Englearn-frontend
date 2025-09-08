@@ -25,7 +25,6 @@ export default function ListAdmin() {
     const [loading, setLoading] = useState<boolean>(false);
     const [showAdd, setShowAdd] = useState<boolean>(false);
 
-    // trạng thái cho modal xóa
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const [userToDelete, setUserToDelete] = useState<User | null>(null);
 

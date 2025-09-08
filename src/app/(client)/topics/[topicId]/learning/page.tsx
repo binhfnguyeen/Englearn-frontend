@@ -8,15 +8,15 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Container, ProgressBar } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
-import { Await } from "react-router-dom";
 import Swal from "sweetalert2";
+import Exercise from "./Exercise";
+import useTTS from "@/utils/useTTS";
 
 interface Vocabulary {
     id: number;
     word: string;
     meaning: string;
     partOfSpeech: string;
-    speech: string;
     picture: string;
 }
 
@@ -31,6 +31,8 @@ export default function Learning() {
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState<boolean>(false);
     const [hasMore, setHasMore] = useState<boolean>(false);
+    const [showExercise, setShowExercise] = useState<boolean>(false);
+    const { speak, isSpeaking } = useTTS()
 
     const loadVocabularies = async () => {
         const url = `${endpoints["topic_vocabs"](id)}?page=${page}&size=1`;
@@ -58,14 +60,6 @@ export default function Learning() {
         loadVocabularies();
     }, [id, page])
 
-    const loadMore = () => {
-        setPage(page + 1);
-    }
-
-    const playAudio = (url: string) => {
-        new Audio(url).play();
-    }
-
     const handleNext = async (vocabId: number) => {
         try {
             if (!user) return;
@@ -77,18 +71,10 @@ export default function Learning() {
         } catch (err) {
             console.error(err);
         }
-
-        if (hasMore) {
-            setPage(prev => prev + 1);
-        }
+        setShowExercise(true);
     }
 
-    const handleFinish = async (e: React.MouseEvent<HTMLButtonElement>, vocabId: number) => {
-        e.preventDefault();
-
-        const clap = new Audio("/sounds/tiengvotayreoho.mp3");
-        clap.play();
-
+    const handleFinish = async (vocabId: number) => {
         await Swal.fire({
             icon: "success",
             title: "Hoàn thành bài học!",
@@ -109,68 +95,98 @@ export default function Learning() {
         }
     };
 
-
     const currentVocab = vocabularies[vocabularies.length - 1];
     const progress = total > 0 ? (vocabularies.length / total) * 100 : 0;
 
+    useEffect(() => {
+        if (currentVocab?.word) {
+            speak(currentVocab.word);
+        }
+    }, [currentVocab?.id]);
 
     return (
         <Container className="my-5 d-flex justify-content-center">
             {loading && vocabularies.length === 0 ? (
                 <MySpinner />
             ) : currentVocab ? (
-                <Card
-                    className="shadow-lg text-center p-4"
-                    style={{ maxWidth: "500px", width: "100%", borderRadius: "20px" }}
-                >
-                    <ProgressBar
-                        now={progress}
-                        className="mb-4"
-                        style={{ height: "20px", borderRadius: "10px" }}
-                    />
-
-                    <Card.Img
-                        variant="top"
-                        src={currentVocab.picture}
-                        alt={currentVocab.word}
-                        className="mb-3"
-                        style={{
-                            maxHeight: "250px",
-                            objectFit: "cover",
-                            borderRadius: "15px",
+                showExercise ? (
+                    <Exercise vocabId={currentVocab.id}
+                        onDone={() => {
+                            setShowExercise(false);
+                            if (hasMore) {
+                                setPage(prev => prev + 1);
+                            } else {
+                                handleFinish(currentVocab.id);
+                            }
                         }}
                     />
-                    <Card.Title className="fw-bold fs-1 mb-2">
-                        {currentVocab.word}
-                        <Button
-                            variant="link"
-                            className="ms-2 p-0"
-                            onClick={() => playAudio(currentVocab.speech)}
-                        >
-                            <Icon.VolumeUp size={32} color="black" className="ms-2" />
-                        </Button>
-                    </Card.Title>
-                    <Card.Subtitle className="text-muted mb-2">
-                        ({currentVocab.partOfSpeech})
-                    </Card.Subtitle>
-
-                    <Card.Text className="fs-4 mb-4">{currentVocab.meaning}</Card.Text>
-
-                    {hasMore ? <Button variant="primary"
-                        size="lg" onClick={() => handleNext(currentVocab.id)}
-                        className="fw-bold px-5 py-2"
-                        style={{ borderRadius: "12px" }}>
-                        Tiếp tục
-                    </Button> : <Button
-                        variant={"success"}
-                        size="lg"
-                        onClick={(e) => handleFinish(e, currentVocab.id)}
-                        className="fw-bold px-5 py-2"
-                        style={{ borderRadius: "12px" }}
+                ) : (
+                    <Card
+                        className="shadow-lg text-center p-4"
+                        style={{ maxWidth: "500px", width: "100%", borderRadius: "20px" }}
                     >
-                        Kết thúc
-                    </Button>}
-                </Card>
+                        <ProgressBar
+                            now={progress}
+                            className="mb-4"
+                            style={{ height: "20px", borderRadius: "10px" }}
+                        />
+
+                        <Card.Img
+                            variant="top"
+                            src={currentVocab.picture}
+                            alt={currentVocab.word}
+                            className="mb-3"
+                            style={{
+                                maxHeight: "250px",
+                                objectFit: "cover",
+                                borderRadius: "15px",
+                            }}
+                        />
+                        <Card.Title
+                            className="fw-bold fs-1 mb-3 d-flex justify-content-center align-items-center gap-3"
+                        >
+                            <span>{currentVocab.word}</span>
+                            <Button
+                                variant="outline-primary"
+                                className="d-flex justify-content-center align-items-center shadow-sm"
+                                onClick={() => speak(currentVocab.word || "")}
+                                disabled={isSpeaking}
+                                style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    borderRadius: "50%",
+                                    fontSize: "1.25rem",
+                                    border: "2px solid #1976d2",
+                                }}
+                            >
+                                {isSpeaking ? (
+                                    <span
+                                        className="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                ) : (
+                                    <Icon.VolumeUp size={22} />
+                                )}
+                            </Button>
+                        </Card.Title>
+                        <Card.Subtitle className="text-muted mb-2">
+                            ({currentVocab.partOfSpeech})
+                        </Card.Subtitle>
+
+                        <Card.Text className="fs-4 mb-4">{currentVocab.meaning}</Card.Text>
+
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            onClick={() => handleNext(currentVocab.id)}
+                            className="fw-bold px-5 py-2"
+                            style={{ borderRadius: "12px" }}
+                        >
+                            {hasMore ? "Tiếp tục" : "Làm bài tập cuối"}
+                        </Button>
+                    </Card>
+                )
             ) : (
                 <div className="text-center">
                     <p>Không có từ vựng nào.</p>

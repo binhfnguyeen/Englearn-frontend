@@ -12,7 +12,6 @@ interface Vocabulary {
     word: string;
     meaning: string;
     partOfSpeech: string;
-    speech: string;
     picture: string;
 }
 
@@ -20,14 +19,12 @@ export default function UpdateVocab() {
     const { vocabId } = useParams();
     const id = Number(vocabId);
     const imageRef = useRef<HTMLInputElement>(null);
-    const audioRef = useRef<HTMLInputElement>(null);
     const [word, setWord] = useState<string>("");
     const [meaning, setMeaning] = useState<string>("");
     const [partOfSpeech, setPartOfSpeech] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [msg, setMsg] = useState<string>("");
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const [previewAudio, setPreviewAudio] = useState<string | null>(null);
     const [vocabulary, setVocabulary] = useState<Vocabulary>();
 
     const loadVocabulary = async () => {
@@ -51,9 +48,6 @@ export default function UpdateVocab() {
             formData.append("word", word);
             formData.append("meaning", meaning);
             formData.append("partOfSpeech", partOfSpeech);
-            if (audioRef.current?.files?.[0]) {
-                formData.append("speech", audioRef.current.files[0]);
-            }
             if (imageRef.current?.files?.[0]) {
                 formData.append("picture", imageRef.current.files[0]);
             }
@@ -79,7 +73,6 @@ export default function UpdateVocab() {
             setWord(vocabulary.word || "");
             setMeaning(vocabulary.meaning || "");
             setPartOfSpeech(vocabulary.partOfSpeech || "");
-            setPreviewAudio(vocabulary.speech || "");
             setPreviewImage(vocabulary.picture || "");
         }
     }, [vocabulary])
@@ -94,12 +87,6 @@ export default function UpdateVocab() {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
             setPreviewImage(URL.createObjectURL(e.target.files[0]));
-        }
-    };
-
-    const handleAudioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files?.[0]) {
-            setPreviewAudio(URL.createObjectURL(e.target.files[0]));
         }
     };
 
@@ -180,24 +167,6 @@ export default function UpdateVocab() {
                                                 alt="preview"
                                                 style={{ width: "100px", height: "auto", borderRadius: "8px" }}
                                             />
-                                        </div>
-                                    )}
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label className="fw-semibold">Audio</Form.Label>
-                                    <Form.Control
-                                        type="file"
-                                        accept="audio/*"
-                                        ref={audioRef}
-                                        onChange={handleAudioChange}
-                                    />
-                                    {previewAudio && (
-                                        <div className="mt-2">
-                                            <audio controls>
-                                                <source src={previewAudio} />
-                                            </audio>
                                         </div>
                                     )}
                                 </Form.Group>

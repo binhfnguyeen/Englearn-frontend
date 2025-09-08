@@ -23,7 +23,10 @@ const endpoints = {
     forgotPassword: "/forgot-password",
     updateProfile: (userId: number) => `/users/${userId}`,
     listAdmin: "/secure/users/admin",
-    deleteAdmin: (userId: number) => `/secure/users/${userId}/admin`
+    deleteAdmin: (userId: number) => `/secure/users/${userId}/admin`,
+    addExercise: "/exercises",
+    VocabExercises: (vocabId: number) => `/vocabularies/${vocabId}/exercises`,
+    delExercise: (exersId: number) => `/exercises/${exersId}`
 }
 
 export default endpoints;

@@ -117,6 +117,9 @@ export default function Header({ children }: { children: React.ReactNode; }) {
                                             <Nav.Link as={Link} href="/admin/tests" className="mb-2 text-dark">
                                                 Thêm đề ôn tập
                                             </Nav.Link>
+                                            <Nav.Link as={Link} href="/admin/exercises" className="mb-2 text-dark">
+                                                Thêm luyện tập từ vựng
+                                            </Nav.Link>
                                             <Nav.Link as={Link} href="/admin/users" className="mb-2 text-dark">
                                                 Thêm quản trị viên
                                             </Nav.Link>

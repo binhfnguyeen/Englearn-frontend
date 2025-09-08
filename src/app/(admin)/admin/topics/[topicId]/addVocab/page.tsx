@@ -12,7 +12,6 @@ interface Vocabulary {
     word: string;
     meaning: string;
     partOfSpeech: string;
-    speech: string;
     picture: string;
 }
 

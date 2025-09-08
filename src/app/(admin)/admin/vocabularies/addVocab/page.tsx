@@ -7,24 +7,16 @@ import { Alert, Button, Card, Col, Container, Form, Nav, Row, Spinner } from "re
 
 export default function AddVocabs() {
     const imageRef = useRef<HTMLInputElement>(null);
-    const audioRef = useRef<HTMLInputElement>(null);
     const [word, setWord] = useState<string>("");
     const [meaning, setMeaning] = useState<string>("");
     const [partOfSpeech, setPartOfSpeech] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [msg, setMsg] = useState<string>("");
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const [previewAudio, setPreviewAudio] = useState<string | null>(null);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
             setPreviewImage(URL.createObjectURL(e.target.files[0]));
-        }
-    };
-
-    const handleAudioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files?.[0]) {
-            setPreviewAudio(URL.createObjectURL(e.target.files[0]));
         }
     };
 
@@ -36,9 +28,6 @@ export default function AddVocabs() {
             formData.append("word", word);
             formData.append("meaning", meaning);
             formData.append("partOfSpeech", partOfSpeech);
-            if (audioRef.current?.files?.[0]) {
-                formData.append("speech", audioRef.current.files[0]);
-            }
             if (imageRef.current?.files?.[0]) {
                 formData.append("picture", imageRef.current.files[0]);
             }
@@ -51,9 +40,7 @@ export default function AddVocabs() {
             setMeaning("");
             setPartOfSpeech("");
             setPreviewImage(null);
-            setPreviewAudio(null);
             if (imageRef.current) imageRef.current.value = "";
-            if (audioRef.current) audioRef.current.value = "";
         } catch (ex) {
             console.error(ex);
             setMsg("Thêm từ vựng mới không thành công!");
@@ -147,24 +134,6 @@ export default function AddVocabs() {
                                                 alt="preview"
                                                 style={{ width: "100px", height: "auto", borderRadius: "8px" }}
                                             />
-                                        </div>
-                                    )}
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label className="fw-semibold">Audio</Form.Label>
-                                    <Form.Control
-                                        type="file"
-                                        accept="audio/*"
-                                        ref={audioRef}
-                                        onChange={handleAudioChange}
-                                    />
-                                    {previewAudio && (
-                                        <div className="mt-2">
-                                            <audio controls>
-                                                <source src={previewAudio} />
-                                            </audio>
                                         </div>
                                     )}
                                 </Form.Group>
