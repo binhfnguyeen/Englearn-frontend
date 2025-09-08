@@ -115,17 +115,31 @@ export default function Exercise({ vocabId, onDone }: Props) {
 
             {exercise.exerciseType === "CHOOSE_MEANING" ? (
                 <div className="d-grid gap-2">
-                    {exercise.choices.map((choice: Choice) => (
-                        <Button
-                            key={choice.id}
-                            variant={selected === choice.content ? "primary" : "outline-secondary"}
-                            disabled={submitted}
-                            onClick={() => setSelected(choice.content)}
-                            style={{ padding: "10px", fontSize: "1rem" }}
-                        >
-                            {choice.content}
-                        </Button>
-                    ))}
+                    {exercise.choices.map((choice: Choice) => {
+                        let variant: string = "outline-secondary";
+
+                        if (submitted) {
+                            if (choice.isCorrect) {
+                                variant = "success"; // tô xanh đáp án đúng
+                            } else if (choice.content === selected && !choice.isCorrect) {
+                                variant = "danger"; // tô đỏ đáp án sai đã chọn
+                            }
+                        } else if (selected === choice.content) {
+                            variant = "primary"; // đang chọn
+                        }
+
+                        return (
+                            <Button
+                                key={choice.id}
+                                variant={variant}
+                                disabled={submitted}
+                                onClick={() => setSelected(choice.content)}
+                                style={{ padding: "10px", fontSize: "1rem" }}
+                            >
+                                {choice.content}
+                            </Button>
+                        );
+                    })}
                 </div>
             ) : (
                 <>
@@ -135,12 +149,21 @@ export default function Exercise({ vocabId, onDone }: Props) {
                             className="d-flex justify-content-center align-items-center"
                             onClick={() => speak(exercise.choices[0]?.content || "")}
                             disabled={isSpeaking}
-                            style={{ width: "60px", height: "60px", borderRadius: "50%", fontSize: "1.5rem", position: "relative" }}
+                            style={{
+                                width: "60px",
+                                height: "60px",
+                                borderRadius: "50%",
+                                fontSize: "1.5rem",
+                                position: "relative",
+                            }}
                         >
                             {isSpeaking ? (
-                                <span className="spinner-border" role="status" aria-hidden="true"
-                                    style={{ width: "2rem", height: "2rem", borderWidth: "0.2em" }} >
-                                </span>
+                                <span
+                                    className="spinner-border"
+                                    role="status"
+                                    aria-hidden="true"
+                                    style={{ width: "2rem", height: "2rem", borderWidth: "0.2em" }}
+                                ></span>
                             ) : (
                                 <VolumeUp />
                             )}
@@ -155,8 +178,18 @@ export default function Exercise({ vocabId, onDone }: Props) {
                         disabled={submitted}
                         style={{ fontSize: "1rem", padding: "10px" }}
                     />
+
+                    {submitted && !isCorrect && (
+                        <p className="mt-3 text-muted" style={{ fontSize: "1rem" }}>
+                            Đáp án đúng:{" "}
+                            <span className="fw-bold text-success">
+                                {exercise.choices[0]?.content}
+                            </span>
+                        </p>
+                    )}
                 </>
             )}
+
 
             {!submitted ? (
                 <Button
