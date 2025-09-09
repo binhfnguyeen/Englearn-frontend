@@ -31,8 +31,9 @@ interface Choice {
     word: string;
 }
 
-interface Answer{
-    questionChoiceId: number;
+interface Answer {
+    questionId: number;
+    choiceId: number | null;
 }
 
 export default function FullTest() {
@@ -62,13 +63,13 @@ export default function FullTest() {
         }
     }
 
-    const handleSelectChoice = (choiceId: number, isCorrect: boolean) => {
+    const handleSelectChoice = (questionId: number, choiceId: number) => {
+        setAnswers(prev => {
+            const updated = prev.filter(a => a.questionId !== questionId);
+            return [...updated, { questionId, choiceId }];
+        });
         setSelectedChoice(choiceId);
-        setAnswers(prev=>[...prev, { questionChoiceId: choiceId}])
-        if (isCorrect) {
-            setScore(prev => prev + 1);
-        }
-    }
+    };
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < (test?.questions.length || 0) - 1) {
@@ -80,10 +81,20 @@ export default function FullTest() {
     }
 
     const handleFinishTest = async () => {
+        let finalScore = 0;
+
+        test?.questions.forEach((q) => {
+            const ans = answers.find(a => a.questionId === q.id);
+            if (ans) {
+                const choice = q.choices.find(c => c.id === ans.choiceId);
+                if (choice?.isCorrect) finalScore++;
+            }
+        });
+
         await Swal.fire({
             icon: "success",
             title: "Hoàn thành bài kiểm tra!",
-            text: `Bạn đạt ${score} / ${test?.questions.length} điểm`,
+            text: `Bạn đạt ${finalScore} / ${test?.questions.length} điểm`,
             showConfirmButton: true,
         });
 
@@ -91,27 +102,32 @@ export default function FullTest() {
             if (!user) return;
 
             const body = {
-                score: score,
+                score: finalScore,
                 dateTaken: new Date().toISOString().split('T')[0],
                 testId: id,
                 userId: user.id,
-                answers: answers
-            }
+                answers: answers.map(a => ({ questionChoiceId: a.choiceId }))
+            };
             await authApis.post(endpoints["addTestResult"], body);
             router.push(`/tests/${id}`);
         } catch (err) {
             console.error(err);
         }
-    }
+    };
 
     useEffect(() => {
         loadFullTest();
     }, [id])
 
+    useEffect(() => {
+        const ans = answers.find(a => a.questionId === test?.questions[currentQuestionIndex].id);
+        setSelectedChoice(ans ? ans.choiceId : null);
+    }, [currentQuestionIndex, test, answers]);
+
     if (!user) {
         return <p className="text-muted">Bạn cần đăng nhập để làm bài kiểm tra.</p>;
     }
-    
+
     return (
         <Container className="my-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -143,24 +159,22 @@ export default function FullTest() {
                                             key={c.id}
                                             action
                                             active={selectedChoice === c.id}
-                                            onClick={() =>
-                                                selectedChoice === null &&
-                                                handleSelectChoice(c.id, c.isCorrect)
-                                            }
-                                            className={
-                                                selectedChoice === c.id
-                                                    ? c.isCorrect
-                                                        ? "bg-success text-white"
-                                                        : "bg-danger text-white"
-                                                    : ""
-                                            }
+                                            onClick={() => handleSelectChoice(test.questions[currentQuestionIndex].id, c.id)}
                                         >
                                             {c.word}
                                         </ListGroup.Item>
                                     ))}
                                 </ListGroup>
 
-                                <div className="mt-4 d-flex justify-content-end">
+                                <div className="mt-4 d-flex justify-content-between">
+                                    <Button
+                                        variant="secondary"
+                                        onClick={() => setCurrentQuestionIndex(prev => Math.max(prev - 1, 0))}
+                                        disabled={currentQuestionIndex === 0}
+                                    >
+                                        Câu trước
+                                    </Button>
+
                                     <Button
                                         onClick={handleNextQuestion}
                                         disabled={selectedChoice === null}

@@ -39,8 +39,10 @@ export async function POST(req: Request) {
 
         const prompt = `
             Bạn là giáo viên tiếng Anh. Với tiến độ học tập gồm số ngày đã học, số từ đã học và trình độ,
-            hãy gợi ý thêm 3 từ phù hợp với trình độ của học viên với mức độ cao hơn. Với meaning là nghĩa tiếng việt.
-            Từ vựng gới ý đa dạng hơn.
+            hãy gợi ý ngẫu nhiên 15 từ tiếng Anh phù hợp với trình độ của học viên mức thấp nhất là B1. 
+            Mỗi lần gợi ý nên có sự đa dạng, tránh lặp lại y hệt những từ đã đề xuất trước đó. 
+            Với meaning là nghĩa tiếng Việt. 
+
             Chỉ trả về **JSON hợp lệ**, không thêm văn bản, không giải thích, không dùng markdown hay dấu \`\`\`.
 
             Dữ liệu:
@@ -51,7 +53,8 @@ export async function POST(req: Request) {
                 {
                     "id": 1,
                     "word": "Từ",
-                    "meaning": "Nghĩa của từ"
+                    "meaning": "Nghĩa của từ",
+                    "example": "Ví dụ về từ"
                 },
             ]
         `;

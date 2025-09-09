@@ -7,8 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Alert, Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { useWindowSize } from '@react-hook/window-size';
-import ReactConfetti from "react-confetti";
-import { Gift, GiftFill } from "react-bootstrap-icons";
+import { GiftFill } from "react-bootstrap-icons";
 interface Topic {
     id: number;
     name: string;
@@ -128,14 +127,6 @@ export default function Topics() {
                         Xem thêm...
                     </Button>
                 </div>
-            )}
-
-            {showBlindBox && (
-                <ReactConfetti
-                    width={width}
-                    height={height}
-                    style={{ position: "fixed", top: 0, left: 0, zIndex: 2000 }}
-                />
             )}
 
             <Modal

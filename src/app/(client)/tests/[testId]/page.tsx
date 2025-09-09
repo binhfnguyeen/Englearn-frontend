@@ -165,33 +165,37 @@ export default function StartTest() {
                             >
                                 <thead className="bg-primary text-white">
                                     <tr>
-                                        <th style={{ width: "60px" }}>Lần</th>
                                         <th>Ngày làm</th>
                                         <th>Điểm</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {testResult.map((result, index) => (
-                                        <tr key={result.id}>
-                                            <td className="fw-bold">{index + 1}</td>
-                                            <td>{new Date(result.dateTaken).toLocaleDateString("vi-VN")}</td>
-                                            <td>
-                                                <span
-                                                    className={`fw-bold px-3 py-1 rounded-pill ${result.score >= totalQuestions / 2
-                                                        ? "bg-success text-white" : "bg-danger text-white"}`}
-                                                >
-                                                    {result.score}/{totalQuestions}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <Link href={`/tests/${id}/results/${result.id}/detailTest`} className="btn btn-sm text-decoration-underline">
-                                                    Xem chi tiết
-                                                </Link>
-                                            </td>
-
-                                        </tr>
-                                    ))}
+                                    {[...testResult]
+                                        .sort((a, b) => new Date(b.dateTaken).getTime() - new Date(a.dateTaken).getTime())
+                                        .map((result, index) => (
+                                            <tr key={result.id}>
+                                                <td>{new Date(result.dateTaken).toLocaleDateString("vi-VN")}</td>
+                                                <td>
+                                                    <span
+                                                        className={`fw-bold px-3 py-1 rounded-pill ${result.score >= totalQuestions / 2
+                                                                ? "bg-success text-white"
+                                                                : "bg-danger text-white"
+                                                            }`}
+                                                    >
+                                                        {result.score}/{totalQuestions}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <Link
+                                                        href={`/tests/${id}/results/${result.id}/detailTest`}
+                                                        className="btn btn-sm text-decoration-underline"
+                                                    >
+                                                        Xem chi tiết
+                                                    </Link>
+                                                </td>
+                                            </tr>
+                                        ))}
                                 </tbody>
                             </Table>
                         </div>

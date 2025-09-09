@@ -34,7 +34,7 @@ export default function ChatPage() {
     const recognitionRef = useRef<SpeechRecognition | null>(null);
     const muteRef = useRef(mute);
     const ttsSupportedRef = useRef(ttsSupported);
-    const {speak} = useTTS();
+    const { speak } = useTTS();
 
     useEffect(() => {
         setConversationId(uuidv4());
@@ -64,7 +64,7 @@ export default function ChatPage() {
             webSocketFactory: () => socket,
             reconnectDelay: 5000,
             onConnect: () => {
-                client.subscribe(`/topic/conversation/${conversationId}`, (message) => {
+                client.subscribe(`/topic/conversation/speak/${conversationId}`, (message) => {
                     const cleanText = cleanOutput(message.body);
                     setMessages((prev) => [...prev, { sender: "bot", text: cleanText }]);
 
@@ -147,12 +147,30 @@ export default function ChatPage() {
         setMessages((prev) => [...prev, { sender: "you", text: content }]);
 
         clientRef.current.publish({
-            destination: `/app/chat/${conversationId}`,
+            destination: `/app/speak/${conversationId}`,
             body: JSON.stringify({ message: content }),
         });
 
         setInput("");
     };
+
+    useEffect(() => {
+        return () => {
+            if (clientRef.current) {
+                clientRef.current.deactivate();
+                clientRef.current = null;
+            }
+
+            if ("speechSynthesis" in window) {
+                window.speechSynthesis.cancel();
+            }
+
+            if (recognitionRef.current) {
+                recognitionRef.current.stop();
+                recognitionRef.current = null;
+            }
+        };
+    }, []);
 
     return (
         <div

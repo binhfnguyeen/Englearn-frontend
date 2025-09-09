@@ -40,7 +40,7 @@ export default function ChatAssistant() {
             reconnectDelay: 5000,
             onConnect: () => {
                 setConnected(true);
-                client.subscribe(`/topic/conversation/${conversationId}`, (message) => {
+                client.subscribe(`/topic/conversation/assisstant/${conversationId}`, (message) => {
                     const cleanText = cleanOutput(message.body);
                     setMessages((prev) => [...prev, { sender: "bot", text: cleanText }]);
                 });
@@ -65,7 +65,7 @@ export default function ChatAssistant() {
         setMessages((prev) => [...prev, { sender: "you", text: input.trim() }]);
 
         clientRef.current.publish({
-            destination: `/app/chat/${conversationId}`,
+            destination: `/app/assisstant/${conversationId}`,
             body: JSON.stringify({ message: input.trim() }),
         });
 
