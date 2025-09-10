@@ -51,3 +51,5 @@ declare const SpeechRecognition: {
     prototype: SpeechRecognition;
     new(): SpeechRecognition;
 };
+
+declare module "mic-recorder-to-mp3";

@@ -26,7 +26,8 @@ const endpoints = {
     deleteAdmin: (userId: number) => `/secure/users/${userId}/admin`,
     addExercise: "/exercises",
     VocabExercises: (vocabId: number) => `/vocabularies/${vocabId}/exercises`,
-    delExercise: (exersId: number) => `/exercises/${exersId}`
+    delExercise: (exersId: number) => `/exercises/${exersId}`,
+    score: (postId: string) => `/pronunciation/score/${postId}`
 }
 
 export default endpoints;
