@@ -92,7 +92,7 @@ export default function ChatPage() {
 
         setMessages([{ sender: "bot", text: "Bạn cần ghi âm và đọc theo câu có sẵn để được chấm điểm phát âm!" }]);
 
-        const socket = new SockJS("http://englearn-backend.onrender.com/elearn/ws-chat");
+        const socket = new SockJS("https://englearn-backend.onrender.com/elearn/ws-chat");
         const client = new Client({
             webSocketFactory: () => socket,
             reconnectDelay: 5000,
