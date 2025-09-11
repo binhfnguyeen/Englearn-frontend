@@ -6,18 +6,11 @@ import endpoints from "@/configs/Endpoints";
 import UserContext from "@/configs/UserContext";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
-import styles from "@/app/(client)/(auth)/login/Login.module.css";
+import { useContext, useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
-import { useEffect } from "react";
 
 export default function LoginForm() {
     const [loading, setLoading] = useState(false);
-    const info = [
-        { title: "Tên đăng nhập", field: "username", type: "text" },
-        { title: "Mật khẩu", field: "password", type: "password" }
-    ];
-
     const [user, setUser] = useState<{ [key: string]: string }>({});
     const router = useRouter();
     const userContext = useContext(UserContext);
@@ -41,7 +34,7 @@ export default function LoginForm() {
                 const profile = await authApis.post(endpoints["profile"]);
                 dispatch({ type: "login", payload: profile.data.result });
                 await Apis.post(endpoints["dateLearned"](profile.data.result.id));
-                setMsg("Đăng nhập thành công!")
+                setMsg("Đăng nhập thành công!");
                 router.push("/");
             }
         } catch (ex) {
@@ -60,8 +53,7 @@ export default function LoginForm() {
     }, [msg]);
 
     return (
-        <>
-            <h2>Sign In</h2>
+        <div className="card shadow-lg border-0 rounded-4 p-4">
             {msg && (
                 <Alert
                     variant={msg.includes("thất bại") ? "danger" : "success"}
@@ -71,26 +63,72 @@ export default function LoginForm() {
                     {msg}
                 </Alert>
             )}
+
             <form onSubmit={login}>
-                {info.map(i => (
-                    <div key={i.field} className={styles.inputBox}>
-                        <input
-                            type={i.type}
-                            placeholder={i.title}
-                            required
-                            value={user[i.field] || ""}
-                            onChange={e => setUser({ ...user, [i.field]: e.target.value })}
-                        />
+                <h3 className="text-center fw-bold mb-4">Đăng nhập</h3>
+
+                <div className="form-outline mb-4">
+                    <input
+                        type="text"
+                        className="form-control form-control-lg"
+                        placeholder="Tên đăng nhập"
+                        value={user["username"] || ""}
+                        onChange={(e) => setUser({ ...user, username: e.target.value })}
+                        required
+                    />
+                </div>
+
+                <div className="form-outline mb-3">
+                    <input
+                        type="password"
+                        className="form-control form-control-lg"
+                        placeholder="Mật khẩu"
+                        value={user["password"] || ""}
+                        onChange={(e) => setUser({ ...user, password: e.target.value })}
+                        required
+                    />
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div className="form-check">
+                        <input className="form-check-input me-2" type="checkbox" id="rememberMe" />
+                        <label className="form-check-label" htmlFor="rememberMe">
+                            Ghi nhớ tôi
+                        </label>
                     </div>
-                ))}
-                <div className={styles.inputBox}>
-                    <input type="submit" value={loading ? "..." : "Login"} id="btn" />
+                    <a href="/forgot-password" className="text-primary fw-semibold small">
+                        Quên mật khẩu?
+                    </a>
                 </div>
-                <div className={styles.group}>
-                    <a href="/forgot-password">Forget Password</a>
-                    <a href="/register">Signup</a>
+
+                <div className="d-grid">
+                    <button
+                        type="submit"
+                        className="btn btn-primary w-100 d-flex align-items-center justify-content-center"
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <>
+                                <span
+                                    className="spinner-border spinner-border-sm me-2"
+                                    role="status"
+                                    aria-hidden="true"
+                                ></span>
+                                Đang xử lý...
+                            </>
+                        ) : (
+                            "Đăng nhập"
+                        )}
+                    </button>
                 </div>
+
+                <p className="small fw-bold mt-3 text-center">
+                    Chưa có tài khoản?{" "}
+                    <a href="/register" className="link-danger">
+                        Đăng ký
+                    </a>
+                </p>
             </form>
-        </>
+        </div>
     );
 }

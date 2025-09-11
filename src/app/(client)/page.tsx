@@ -2,7 +2,7 @@
 
 import UserContext from "@/configs/UserContext";
 import { useContext } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Link from "next/link";
 import styles from "@/app/(client)/home.module.css";
 
@@ -26,13 +26,29 @@ export default function Home() {
         >
             <Container className="text-center text-white">
                 <Row className="justify-content-center">
-                    <Col md={8}>
-                        <h1 className={`mb-4 fw-bold ${styles.textOutlineRed}`}>
-                            Học Tiếng Anh dễ dàng hơn 🚀
-                        </h1>
-                        <p className={`lead mb-4 ${styles.textOutlineRed}`}>
-                            Nâng cao trình độ tiếng với lộ trình học cá nhân hoá.
-                        </p>
+                    <Col md={10} lg={8}>
+                        <img
+                            src="/template/EngLearnLogo.png"
+                            alt="EngLearn Logo"
+                            className="mb-4"
+                            style={{ maxWidth: "35%", filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))" }}
+                        />
+
+                        <div
+                            className="bg-white bg-opacity-75 p-4 rounded-4 shadow-lg text-center mx-auto mb-4"
+                            style={{
+                                maxWidth: "700px",
+                                backdropFilter: "blur(10px)",
+                            }}
+                        >
+                            <h1 className={`mb-3 fw-bold ${styles.textOutlineRed}`}>
+                                Học Tiếng Anh dễ dàng hơn
+                            </h1>
+
+                            <p className={`lead mb-0 ${styles.textOutlineRed}`}>
+                                Nâng cao trình độ tiếng với lộ trình học cá nhân hoá.
+                            </p>
+                        </div>
 
                         <div className="d-flex gap-3 justify-content-center">
                             {!user && (

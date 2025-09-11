@@ -1,29 +1,36 @@
 "use client";
 
 import React from "react";
-import styles from "@/app/(client)/(auth)/login/Login.module.css";
 
 export default function LoginLayout({ children }: { children: React.ReactNode }) {
   return (
-    <section className={styles.section}>
-      <div className={styles.leaves}>
-        <div className={styles.set}>
-          <div><img src="/template/leaf_01.png" /></div>
-          <div><img src="/template/leaf_02.png" /></div>
-          <div><img src="/template/leaf_03.png" /></div>
-          <div><img src="/template/leaf_04.png" /></div>
-          <div><img src="/template/leaf_01.png" /></div>
-          <div><img src="/template/leaf_02.png" /></div>
-          <div><img src="/template/leaf_03.png" /></div>
-          <div><img src="/template/leaf_04.png" /></div>
-        </div>
-      </div>
-      <img src="/template/bg.jpg" className={styles.bg} />
-      <img src="/template/girl.png" className={styles.girl} />
-      <img src="/template/trees.png" className={styles.trees} />
+    <section className="vh-100 d-flex align-items-center login-bg"
+      style={{
+        minHeight: "100vh",
+        backgroundImage: "url('/template/bg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}>
+      <div className="container h-custom">
+        <div className="row d-flex justify-content-center align-items-center h-100">
 
-      <div className={styles.login}>
-        {children}
+          <div className="col-md-9 col-lg-6 col-xl-5 text-center">
+            <img
+              src="/template/EngLearnLogo.png"
+              className="img-fluid"
+              alt="EngLearn Logo"
+              style={{ maxWidth: "350px" }}
+            />
+          </div>
+
+          <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            {children}
+          </div>
+        </div>
       </div>
     </section>
   );
